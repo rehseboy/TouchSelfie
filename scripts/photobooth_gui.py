@@ -348,7 +348,7 @@ force_snap(countdown1=0)
 root.after(200, check_and_snap)
 if custom.SIGN_ME_IN:
     root.after(custom.oauth2_refresh_period, refresh_oauth2_credentials)
-root.wm_title("Wyolum Photobooth")
+root.wm_title("Asja & Michael's Photobooth")
 etext.focus_set()
 # etext.bind("<Enter>", sendPic)
 on_rgb_change()
