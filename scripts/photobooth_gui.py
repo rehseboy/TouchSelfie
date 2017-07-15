@@ -7,6 +7,7 @@ WyoLum.com
 
 ## imports
 from tkkb import Tkkb
+import signal
 import time
 from Tkinter import *
 import tkMessageBox
@@ -16,42 +17,14 @@ import custom
 import Image
 import config
 from constants import *
+### booth cam may need to present a file dialog gui.  So import after root is defined.
+from boothcam import *
 
-## This is a simple GUI, so we allow the root singleton to do the legwork
-root = Tk()
-root.attributes("-fullscreen",True)
 
 def screenshot(*args):
     import screenshot
     screenshot.snap()
-root.bind('<F12>', screenshot)
 
-### booth cam may need to present a file dialog gui.  So import after root is defined.
-from boothcam import *
-
-## set display geometry
-WIDTH = 800
-HEIGHT = 480
-albumID_informed = False ### only show albumID customize info once
-
-## set photo size to fit nicely in screen
-SCALE = 1.8
-
-## the countdown starting value
-# COUNTDOWN1 = custom.countdown1 ### use custom.countdown1 reference directly
-
-## put the status widget below the displayed image
-STATUS_H_OFFSET = 150 ## was 210
-
-## only accept button inputs from the AlaMode when ready
-Button_enabled = False
-
-import signal
-TIMEOUT = .3 # number of seconds your want for timeout
-
-last_snap = time.time()
-
-tkkb = None
 def launch_tkkb(*args):
     '''
     Launch on screen keyboard program called tkkb-keyboard.
@@ -60,16 +33,19 @@ def launch_tkkb(*args):
     global tkkb
     if tkkb is None:
         tkkb = Toplevel(root)
+
         def onEnter(*args):
             kill_tkkb()
             sendPic()
+
         Tkkb(tkkb, etext, onEnter=onEnter)
         etext.config(state=NORMAL)
         tkkb.wm_attributes("-topmost", 1)
         tkkb.transient(root)
         tkkb_button.config(command=kill_tkkb, text="Close KB")
         tkkb.protocol("WM_DELETE_WINDOW", kill_tkkb)
-        
+
+
 def kill_tkkb():
     '''
     Delete on screen keyboard program called tkkb-keyboard.
@@ -89,25 +65,27 @@ def interrupted(signum, frame):
     print 'interrupted!'
     signal.signal(signal.SIGALRM, interrupted)
 
+
 def display_image(im=None):
     '''
     display image im in GUI window
     '''
     global image_tk
-    
-    x,y = im.size
+
+    x, y = im.size
     x = int(x / SCALE)
     y = int(y / SCALE)
 
-    im = im.resize((x,y));
+    im = im.resize((x, y));
     image_tk = ImageTk.PhotoImage(im)
 
     ## delete all canvas elements with "image" in the tag
     can.delete("image")
-    can.create_image([(WIDTH + x) / 2 - x/2,
-                      0 + y / 2], 
-                     image=image_tk, 
+    can.create_image([(WIDTH + x) / 2 - x / 2,
+                      0 + y / 2],
+                     image=image_tk,
                      tags="image")
+
 
 def timelapse_due():
     '''
@@ -121,6 +99,7 @@ def timelapse_due():
         out = False
     return out
 
+
 def refresh_oauth2_credentials():
     if custom.SIGN_ME_IN:
         if setup_google():
@@ -128,7 +107,8 @@ def refresh_oauth2_credentials():
         else:
             print 'refresh failed'
         root.after(custom.oauth2_refresh_period, refresh_oauth2_credentials)
-    
+
+
 def check_and_snap(force=False, countdown1=None):
     '''
     Check button status and snap a photo if button has been pressed.
@@ -136,8 +116,8 @@ def check_and_snap(force=False, countdown1=None):
     force -- take a snapshot regarless of button status
     countdown1 -- starting value for countdown timer
     '''
-    global  image_tk, Button_enabled, last_snap, signed_in
-    
+    global image_tk, Button_enabled, last_snap, signed_in
+
     if countdown1 is None:
         countdown1 = custom.countdown1
     if signed_in:
@@ -153,20 +133,20 @@ def check_and_snap(force=False, countdown1=None):
         # can.delete("text")
         # can.create_text(WIDTH/2, HEIGHT - STATUS_H_OFFSET, text="Press button when ready", font=custom.CANVAS_FONT, tags="text")
         # can.update()
-        
-    ## get command string from alamode
-#    command = ser.readline().strip()
-    command=""
+
+        ## get command string from alamode
+    #    command = ser.readline().strip()
+    command = ""
     if Button_enabled and (force or command == "snap" or timelapse_due()):
         ## take a photo and display it
         Button_enabled = False
         can.delete("text")
         can.update()
-        
+
         if timelapse_due():
             countdown1 = 0
         im = snap(can, countdown1=countdown1, effect='None')
-#        setLights(r_var.get(), g_var.get(), b_var.get())
+        #        setLights(r_var.get(), g_var.get(), b_var.get())
         if im is not None:
             if custom.TIMELAPSE > 0:
                 togo = custom.TIMELAPSE - (time.time() - last_snap)
@@ -175,7 +155,8 @@ def check_and_snap(force=False, countdown1=None):
             last_snap = time.time()
             display_image(im)
             can.delete("text")
-            can.create_text(WIDTH/2, HEIGHT - STATUS_H_OFFSET, text="Uploading Image", font=custom.CANVAS_FONT, tags="text")
+            can.create_text(WIDTH / 2, HEIGHT - STATUS_H_OFFSET, text="Uploading Image", font=custom.CANVAS_FONT,
+                            tags="text")
             can.update()
             if signed_in:
                 if custom.albumID == 'None':
@@ -193,8 +174,8 @@ def check_and_snap(force=False, countdown1=None):
                     except Exception, e:
                         tkMessageBox.showinfo("Upload Error", str(e) +
                                               '\nUpload Failed:%s' % e)
-                    
-                    # signed_in = False
+
+                        # signed_in = False
             can.delete("text")
             # can.create_text(WIDTH/2, HEIGHT - STATUS_H_OFFSET, text="Press button when ready", font=custom.CANVAS_FONT, tags="text")
             can.update()
@@ -206,8 +187,7 @@ def check_and_snap(force=False, countdown1=None):
         ## call this function again in 100 ms
         root.after_id = root.after(100, check_and_snap)
 
-## for clean shutdowns
-root.after_id = None
+
 def on_close(*args, **kw):
     '''
     when window closes cancel pending root.after() call
@@ -220,7 +200,7 @@ def on_close(*args, **kw):
     g_var.set(0)
     b_var.set(0)
     root.quit()
-root.protocol('WM_DELETE_WINDOW', on_close)
+
 
 def force_snap(countdown1=None):
     if countdown1 is None:
@@ -228,8 +208,7 @@ def force_snap(countdown1=None):
     check_and_snap(force=True, countdown1=countdown1)
 
 
-
-#if they enter an email address send photo. add error checking
+# if they enter an email address send photo. add error checking
 def sendPic(*args):
     if signed_in:
         print 'sending photo by email to %s' % email_addr.get()
@@ -244,18 +223,19 @@ def sendPic(*args):
         except Exception, e:
             print 'Send Failed::', e
             can.delete("all")
-            can.create_text(WIDTH/2, HEIGHT - STATUS_H_OFFSET, text="Send Failed", font=custom.CANVAS_FONT, tags="text")
+            can.create_text(WIDTH / 2, HEIGHT - STATUS_H_OFFSET, text="Send Failed", font=custom.CANVAS_FONT,
+                            tags="text")
             can.update()
             time.sleep(1)
             can.delete("all")
             im = Image.open(custom.PROC_FILENAME)
             display_image(im)
-            can.create_text(WIDTH/2, HEIGHT - STATUS_H_OFFSET, text="Press button when ready", font=custom.CANVAS_FONT, tags="text")
+            can.create_text(WIDTH / 2, HEIGHT - STATUS_H_OFFSET, text="Press button when ready",
+                            font=custom.CANVAS_FONT, tags="text")
             can.update()
     else:
         print 'Not signed in'
 
-#ser = findser()
 
 def delay_timelapse(*args):
     '''
@@ -264,7 +244,61 @@ def delay_timelapse(*args):
     global last_snap
     last_snap = time.time()
 
-#bound to text box for email
+
+## send RGB changes to alamode
+def on_rgb_change(*args):
+    setLights(r_var.get(), g_var.get(), b_var.get())
+
+
+def labeled_slider(parent, label, from_, to, side, variable):
+    frame = Frame(parent)
+    Label(frame, text=label).pack(side=TOP)
+    scale = Scale(frame, from_=from_, to=to, variable=variable, resolution=1).pack(side=TOP)
+    frame.pack(side=side)
+    return scale
+
+
+def snap_callback(*args):
+    force_snap()
+
+
+
+## This is a simple GUI, so we allow the root singleton to do the legwork
+root = Tk()
+root.attributes("-fullscreen", True)
+
+root.bind('<F12>', screenshot)
+
+## set display geometry
+WIDTH = 800
+HEIGHT = 480
+albumID_informed = False  ### only show albumID customize info once
+
+## set photo size to fit nicely in screen
+SCALE = 1.8
+
+## the countdown starting value
+# COUNTDOWN1 = custom.countdown1 ### use custom.countdown1 reference directly
+
+## put the status widget below the displayed image
+STATUS_H_OFFSET = 150  ## was 210
+
+## only accept button inputs from the AlaMode when ready
+Button_enabled = False
+
+TIMEOUT = .3  # number of seconds your want for timeout
+
+last_snap = time.time()
+
+tkkb = None
+
+## for clean shutdowns
+root.after_id = None
+
+
+root.protocol('WM_DELETE_WINDOW', on_close)
+
+# bound to text box for email
 email_addr = StringVar()
 email_addr.trace('w', delay_timelapse)
 
@@ -273,9 +307,6 @@ r_var = IntVar()
 g_var = IntVar()
 b_var = IntVar()
 
-## send RGB changes to alamode
-def on_rgb_change(*args):
-    setLights(r_var.get(), g_var.get(), b_var.get())
 
 ## call on_rgb_change when any of the sliders move
 r_var.trace('w', on_rgb_change)
@@ -286,7 +317,7 @@ w, h = root.winfo_screenwidth(), root.winfo_screenheight()
 
 # root.overrideredirect(1)
 root.geometry("%dx%d+0+0" % (WIDTH, HEIGHT))
-root.focus_set() # <-- move focus to this widget
+root.focus_set()  # <-- move focus to this widget
 frame = Frame(root)
 
 # Button(frame, text="Exit", command=on_close).pack(side=LEFT)
@@ -303,17 +334,10 @@ else:
 timelapse_label.pack(side=LEFT)
 
 ## add a text entry box for email addresses
-etext = Entry(frame,width=40, textvariable=email_addr, font=custom.BUTTON_FONT)
+etext = Entry(frame, width=40, textvariable=email_addr, font=custom.BUTTON_FONT)
 etext.pack()
 frame.pack()
 etext.bind('<Button-1>', launch_tkkb)
-
-def labeled_slider(parent, label, from_, to, side, variable):
-    frame = Frame(parent)
-    Label(frame, text=label).pack(side=TOP)
-    scale = Scale(frame, from_=from_, to=to, variable=variable, resolution=1).pack(side=TOP)
-    frame.pack(side=side)
-    return scale
 
 ## add a software button in case hardware button is not available
 interface_frame = Frame(root)
@@ -325,8 +349,7 @@ interface_frame.pack(side=RIGHT)
 ## the canvas will display the images
 can = Canvas(root, width=WIDTH, height=HEIGHT)
 can.pack()
-def snap_callback(*args):
-    force_snap()
+
 can.bind('<Button-1>', snap_callback)
 
 ## sign in to google?
@@ -340,7 +363,7 @@ if not signed_in:
 
 ### take the first photo (no delay)
 can.delete("text")
-can.create_text(WIDTH/2, HEIGHT/2, text="SMILE ;-)", font=custom.CANVAS_FONT, tags="splash")
+can.create_text(WIDTH / 2, HEIGHT / 2, text="SMILE ;-)", font=custom.CANVAS_FONT, tags="splash")
 can.update()
 force_snap(countdown1=0)
 
@@ -353,5 +376,3 @@ etext.focus_set()
 # etext.bind("<Enter>", sendPic)
 on_rgb_change()
 root.mainloop()
-
-
