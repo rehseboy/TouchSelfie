@@ -230,8 +230,13 @@ def entry_point(master):
     self = Toplevel(master)
     self.master = master
 
-    def close_and_start():
+    def set_email_and_start():
         send_email = True
+        close()
+        force_snap()
+
+    def close_and_start():
+        send_email = False
         close()
         force_snap()
 
@@ -276,7 +281,7 @@ def entry_point(master):
     frame = Frame(self)
     tkkb_button = Button(frame, command=launch_tkkb, text="Launch-KB")
     # tkkb_button.pack(side=LEFT)
-    send_button = Button(frame, text="SendEmail", command=sendPic, font=custom.BUTTON_FONT)
+    send_button = Button(frame, text="Send Email", command=set_email_and_start, font=custom.BUTTON_FONT)
     send_button.pack(side=RIGHT)
 
     ## add a text entry box for email addresses
