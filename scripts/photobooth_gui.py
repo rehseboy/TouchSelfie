@@ -73,7 +73,7 @@ def refresh_oauth2_credentials():
         root.after(custom.oauth2_refresh_period, refresh_oauth2_credentials)
 
 
-def check_and_snap(force=False, countdown1=None):
+def check_and_snap(force=False, countdown1=None, email=None):
     '''
     Check button status and snap a photo if button has been pressed.
 
@@ -135,8 +135,8 @@ def check_and_snap(force=False, countdown1=None):
                 else:
                     try:
                         googleUpload(custom.PROC_FILENAME)
-                        if send_email:
-                            sendPic()
+                        if email is not None:
+                            sendPic(email)
                     except Exception, e:
                         tkMessageBox.showinfo("Upload Error", str(e) +
                                               '\nUpload Failed:%s' % e)
@@ -171,7 +171,7 @@ def on_close(*args, **kw):
 def force_snap(countdown1=None):
     if countdown1 is None:
         countdown1 = custom.countdown1
-    check_and_snap(force=True, countdown1=countdown1)
+    check_and_snap(force=True, countdown1=countdown1,email=None)
 
 
 def delay_timelapse(*args):
@@ -199,11 +199,11 @@ def snap_callback(*args):
     force_snap()
 
 # if they enter an email address send photo. add error checking
-def sendPic(*args):
+def sendPic(email):
     if signed_in:
-        print 'sending photo by email to %s' % email_addr.get()
+        print 'sending photo by email to %s' % email
         try:
-            sendMail(email_addr.get().strip(),
+            sendMail(email.strip(),
                      custom.emailSubject,
                      custom.emailMsg,
                      custom.PROC_FILENAME)
@@ -225,20 +225,16 @@ def sendPic(*args):
         print 'Not signed in'
 
 def entry_point(master):
-    global send_email, email_addr
-    email_addr = ""
     self = Toplevel(master)
     self.master = master
 
     def set_email_and_start():
-        send_email = True
         close()
-        force_snap()
+        check_and_snap(force=True, countdown1=custom.countdown1, email=email_addr.get())
 
     def close_and_start():
-        send_email = False
         close()
-        force_snap()
+        check_and_snap(force=True, countdown1=custom.countdown1)
 
     def close():
         self.destroy()
@@ -254,7 +250,7 @@ def entry_point(master):
 
             def onEnter(*args):
                 kill_tkkb()
-                sendPic()
+                set_email_and_start()
 
             Tkkb(tkkb, etext, onEnter=onEnter)
             etext.config(state=NORMAL)
