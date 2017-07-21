@@ -258,7 +258,7 @@ def entry_point(master):
         '''
         global tkkb
         if tkkb is None:
-            tkkb = Toplevel(self)
+            tkkb = Frame(self)
 
             def onEnter(*args):
                 kill_tkkb()
@@ -266,10 +266,10 @@ def entry_point(master):
 
             Tkkb(tkkb, etext, onEnter=onEnter)
             etext.config(state=NORMAL)
-            tkkb.wm_attributes("-topmost", 1)
-            tkkb.transient(self)
+            # tkkb.wm_attributes("-topmost", 1)
+            # tkkb.transient(self)
             tkkb_button.config(command=kill_tkkb, text="Close KB")
-            tkkb.protocol("WM_DELETE_WINDOW", kill_tkkb)
+            # tkkb.protocol("WM_DELETE_WINDOW", kill_tkkb)
 
     def kill_tkkb():
         '''
