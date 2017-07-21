@@ -281,11 +281,6 @@ def entry_point(master):
     frame.pack()
     etext.bind('<Button-1>', launch_tkkb)
 
-    ## sign in to google?
-    if custom.SIGN_ME_IN:
-        signed_in = setup_google()
-    else:
-        signed_in = False
     if not signed_in:
         send_button.config(state=DISABLED)
         etext.config(state=DISABLED)
@@ -370,8 +365,14 @@ can.pack()
 ### take the first photo (no delay)
 can.delete("text")
 can.create_text(WIDTH / 2, HEIGHT / 2, text="SMILE ;-)", font=custom.CANVAS_FONT, tags="splash")
-can.updater()
+# can.updater()
 force_snap(countdown1=0)
+
+## sign in to google?
+if custom.SIGN_ME_IN:
+    signed_in = setup_google()
+else:
+    signed_in = False
 
 ### check button after waiting for 200 ms
 # root.after(200, check_and_snap)
