@@ -21,6 +21,9 @@ from constants import *
 from boothcam import *
 
 
+email_addr = None
+
+
 def screenshot(*args):
     import screenshot
     screenshot.snap()
@@ -340,7 +343,7 @@ root.protocol('WM_DELETE_WINDOW', on_close)
 
 # bound to text box for email
 # send_email = False
-email_addr = None
+
 # email_addr.trace('w', delay_timelapse)
 
 ## bound to RGB sliders
