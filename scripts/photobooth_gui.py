@@ -230,6 +230,7 @@ def sendPic(email):
 def entry_point(master):
     self = Toplevel(master)
     self.master = master
+    email_addr = StringVar()
 
     def set_email_and_start():
         print 'Starting with email %s' % email_addr.get()
@@ -337,7 +338,7 @@ root.protocol('WM_DELETE_WINDOW', on_close)
 
 # bound to text box for email
 # send_email = False
-email_addr = StringVar()
+email_addr = None
 # email_addr.trace('w', delay_timelapse)
 
 ## bound to RGB sliders
