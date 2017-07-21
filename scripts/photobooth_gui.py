@@ -279,6 +279,7 @@ def entry_point(master):
     etext = Entry(frame, width=40, textvariable=email_addr, font=custom.BUTTON_FONT)
     etext.pack()
     Button(frame, command=close_and_start, text="Don't Send Email", font=custom.BUTTON_FONT).pack(side=RIGHT)
+
     frame.pack()
     etext.bind('<Button-1>', launch_tkkb)
 
@@ -327,6 +328,14 @@ root.protocol('WM_DELETE_WINDOW', on_close)
 email_addr = StringVar()
 email_addr.trace('w', delay_timelapse)
 
+## sign in to google?
+if custom.SIGN_ME_IN:
+    signed_in = setup_google()
+else:
+    signed_in = False
+
+entry_point(master=root)
+
 ## bound to RGB sliders
 r_var = IntVar()
 g_var = IntVar()
@@ -361,12 +370,6 @@ can.pack()
 
 # can.bind('<Button-1>', snap_callback)
 
-## sign in to google?
-if custom.SIGN_ME_IN:
-    signed_in = setup_google()
-else:
-    signed_in = False
-
 ### take the first photo (no delay)
 # can.delete("text")
 # can.create_text(WIDTH / 2, HEIGHT / 2, text="SMILE ;-)", font=custom.CANVAS_FONT, tags="splash")
@@ -380,7 +383,5 @@ if custom.SIGN_ME_IN:
 root.wm_title("Asja & Michael's Photobooth")
 
 on_rgb_change()
-
-entry_point(master=root)
 
 root.mainloop()
