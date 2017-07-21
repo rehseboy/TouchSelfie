@@ -278,6 +278,7 @@ def entry_point(master):
     ## add a text entry box for email addresses
     etext = Entry(frame, width=40, textvariable=email_addr, font=custom.BUTTON_FONT)
     etext.pack()
+    Button(frame, command=close_and_start(), text="Don't Send Email", font=custom.BUTTON_FONT).pack(side=RIGHT)
     frame.pack()
     etext.bind('<Button-1>', launch_tkkb)
 
@@ -286,8 +287,6 @@ def entry_point(master):
         etext.config(state=DISABLED)
 
     etext.focus_set()
-
-    Button(frame, command=close_and_start(), text="Don't Send Email", font=custom.BUTTON_FONT).pack(side=RIGHT)
 
 
 ## This is a simple GUI, so we allow the root singleton to do the legwork
@@ -369,12 +368,10 @@ else:
     signed_in = False
 
 ### take the first photo (no delay)
-can.delete("text")
-can.create_text(WIDTH / 2, HEIGHT / 2, text="SMILE ;-)", font=custom.CANVAS_FONT, tags="splash")
-# can.updater()
-force_snap(countdown1=0)
-
-
+# can.delete("text")
+# can.create_text(WIDTH / 2, HEIGHT / 2, text="SMILE ;-)", font=custom.CANVAS_FONT, tags="splash")
+# # can.updater()
+# force_snap(countdown1=0)
 
 ### check button after waiting for 200 ms
 # root.after(200, check_and_snap)
