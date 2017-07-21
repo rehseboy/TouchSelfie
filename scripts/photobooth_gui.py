@@ -328,14 +328,6 @@ root.protocol('WM_DELETE_WINDOW', on_close)
 email_addr = StringVar()
 email_addr.trace('w', delay_timelapse)
 
-## sign in to google?
-if custom.SIGN_ME_IN:
-    signed_in = setup_google()
-else:
-    signed_in = False
-
-entry_point(master=root)
-
 ## bound to RGB sliders
 r_var = IntVar()
 g_var = IntVar()
@@ -369,6 +361,14 @@ can = Canvas(root, width=WIDTH, height=HEIGHT)
 can.pack()
 
 # can.bind('<Button-1>', snap_callback)
+
+## sign in to google?
+if custom.SIGN_ME_IN:
+    signed_in = setup_google()
+else:
+    signed_in = False
+
+entry_point(master=root)
 
 ### take the first photo (no delay)
 can.delete("text")
