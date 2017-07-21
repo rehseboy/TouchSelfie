@@ -233,7 +233,7 @@ def entry_point(master):
     global email_addr
     self = Toplevel(master)
     self.geometry("%dx%d%+d%+d" % (WIDTH, 400, 0, 40))
-    # self.overrideredirect(1)
+    self.overrideredirect(1)
     # self.master = master
     email_addr = StringVar()
 
@@ -258,7 +258,7 @@ def entry_point(master):
         '''
         global tkkb
         if tkkb is None:
-            tkkb = Toplevel(root)
+            tkkb = Toplevel(self)
 
             def onEnter(*args):
                 kill_tkkb()
