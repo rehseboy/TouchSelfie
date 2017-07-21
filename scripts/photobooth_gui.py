@@ -72,6 +72,86 @@ def refresh_oauth2_credentials():
             print 'refresh failed'
         root.after(custom.oauth2_refresh_period, refresh_oauth2_credentials)
 
+
+def check_and_snap(force=False, countdown1=None):
+    '''
+    Check button status and snap a photo if button has been pressed.
+
+    force -- take a snapshot regarless of button status
+    countdown1 -- starting value for countdown timer
+    '''
+    global image_tk, Button_enabled, last_snap, signed_in
+
+    if countdown1 is None:
+        countdown1 = custom.countdown1
+    # if signed_in:
+    #     send_button.config(state=NORMAL)
+    #     etext.config(state=NORMAL)
+    # else:
+    #     send_button.config(state=DISABLED)
+    #     etext.config(state=DISABLED)
+    if (Button_enabled == False):
+        ## inform alamode that we are ready to receive button press events
+        ## ser.write('e') #enable button (not used)
+        Button_enabled = True
+        # can.delete("text")
+        # can.create_text(WIDTH/2, HEIGHT - STATUS_H_OFFSET, text="Press button when ready", font=custom.CANVAS_FONT, tags="text")
+        # can.update()
+
+        ## get command string from alamode
+    #    command = ser.readline().strip()
+    command = ""
+    if Button_enabled and (force or command == "snap" or timelapse_due()):
+        ## take a photo and display it
+        Button_enabled = False
+        can.delete("text")
+        can.update()
+
+        if timelapse_due():
+            countdown1 = 0
+        im = snap(can, countdown1=countdown1, effect='None')
+        #        setLights(r_var.get(), g_var.get(), b_var.get())
+        if im is not None:
+            if custom.TIMELAPSE > 0:
+                togo = custom.TIMELAPSE - (time.time() - last_snap)
+            else:
+                togo = 1e8
+            last_snap = time.time()
+            display_image(im)
+            can.delete("text")
+            can.create_text(WIDTH / 2, HEIGHT - STATUS_H_OFFSET, text="Uploading Image", font=custom.CANVAS_FONT,
+                            tags="text")
+            can.update()
+            if signed_in:
+                if custom.albumID == 'None':
+                    global albumID_informed
+                    if not albumID_informed:
+                        tkMessageBox.showinfo(
+                            'Album ID not set',
+                            'Click Customize to select albumID',
+                            parent=root
+                        )
+                        albumID_informed = True
+                else:
+                    try:
+                        googleUpload(custom.PROC_FILENAME)
+                    except Exception, e:
+                        tkMessageBox.showinfo("Upload Error", str(e) +
+                                              '\nUpload Failed:%s' % e)
+
+                        # signed_in = False
+            can.delete("text")
+            # can.create_text(WIDTH/2, HEIGHT - STATUS_H_OFFSET, text="Press button when ready", font=custom.CANVAS_FONT, tags="text")
+            can.update()
+    else:
+        ### what command did we get?
+        if command.strip():
+            print command
+    if not force:
+        ## call this function again in 100 ms
+        root.after_id = root.after(100, check_and_snap)
+
+
 def on_close(*args, **kw):
     '''
     when window closes cancel pending root.after() call
@@ -282,95 +362,18 @@ can.pack()
 
 # can.bind('<Button-1>', snap_callback)
 
-### take the first photo (no delay)
-can.delete("text")
-can.create_text(WIDTH / 2, HEIGHT / 2, text="SMILE ;-)", font=custom.CANVAS_FONT, tags="splash")
-# can.updater()
-force_snap(countdown1=0)
-
 ## sign in to google?
 if custom.SIGN_ME_IN:
     signed_in = setup_google()
 else:
     signed_in = False
 
-def check_and_snap(force=False, countdown1=None):
-    '''
-    Check button status and snap a photo if button has been pressed.
+### take the first photo (no delay)
+can.delete("text")
+can.create_text(WIDTH / 2, HEIGHT / 2, text="SMILE ;-)", font=custom.CANVAS_FONT, tags="splash")
+# can.updater()
+force_snap(countdown1=0)
 
-    force -- take a snapshot regarless of button status
-    countdown1 -- starting value for countdown timer
-    '''
-    global image_tk, Button_enabled, last_snap, signed_in
-
-    if countdown1 is None:
-        countdown1 = custom.countdown1
-    # if signed_in:
-    #     send_button.config(state=NORMAL)
-    #     etext.config(state=NORMAL)
-    # else:
-    #     send_button.config(state=DISABLED)
-    #     etext.config(state=DISABLED)
-    if (Button_enabled == False):
-        ## inform alamode that we are ready to receive button press events
-        ## ser.write('e') #enable button (not used)
-        Button_enabled = True
-        # can.delete("text")
-        # can.create_text(WIDTH/2, HEIGHT - STATUS_H_OFFSET, text="Press button when ready", font=custom.CANVAS_FONT, tags="text")
-        # can.update()
-
-        ## get command string from alamode
-    #    command = ser.readline().strip()
-    command = ""
-    if Button_enabled and (force or command == "snap" or timelapse_due()):
-        ## take a photo and display it
-        Button_enabled = False
-        can.delete("text")
-        can.update()
-
-        if timelapse_due():
-            countdown1 = 0
-        im = snap(can, countdown1=countdown1, effect='None')
-        #        setLights(r_var.get(), g_var.get(), b_var.get())
-        if im is not None:
-            if custom.TIMELAPSE > 0:
-                togo = custom.TIMELAPSE - (time.time() - last_snap)
-            else:
-                togo = 1e8
-            last_snap = time.time()
-            display_image(im)
-            can.delete("text")
-            can.create_text(WIDTH / 2, HEIGHT - STATUS_H_OFFSET, text="Uploading Image", font=custom.CANVAS_FONT,
-                            tags="text")
-            can.update()
-            if signed_in:
-                if custom.albumID == 'None':
-                    global albumID_informed
-                    if not albumID_informed:
-                        tkMessageBox.showinfo(
-                            'Album ID not set',
-                            'Click Customize to select albumID',
-                            parent=root
-                        )
-                        albumID_informed = True
-                else:
-                    try:
-                        googleUpload(custom.PROC_FILENAME)
-                    except Exception, e:
-                        tkMessageBox.showinfo("Upload Error", str(e) +
-                                              '\nUpload Failed:%s' % e)
-
-                        # signed_in = False
-            can.delete("text")
-            # can.create_text(WIDTH/2, HEIGHT - STATUS_H_OFFSET, text="Press button when ready", font=custom.CANVAS_FONT, tags="text")
-            can.update()
-    else:
-        ### what command did we get?
-        if command.strip():
-            print command
-    if not force:
-        ## call this function again in 100 ms
-        root.after_id = root.after(100, check_and_snap)
 
 
 ### check button after waiting for 200 ms
