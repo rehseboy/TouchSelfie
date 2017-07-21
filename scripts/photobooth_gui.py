@@ -233,7 +233,7 @@ def entry_point(master):
     global email_addr
     self = Toplevel(master)
     self.geometry("%dx%d%+d%+d" % (WIDTH, 400, 0, 40))
-    self.overrideredirect(1)
+    # self.overrideredirect(1)
     # self.master = master
     email_addr = StringVar()
 
