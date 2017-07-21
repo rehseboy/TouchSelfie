@@ -21,9 +21,6 @@ from constants import *
 from boothcam import *
 
 
-email_addr = None
-
-
 def screenshot(*args):
     import screenshot
     screenshot.snap()
@@ -233,6 +230,7 @@ def sendPic(email):
         print 'Not signed in'
 
 def entry_point(master):
+    global email_addr
     self = Toplevel(master)
     self.master = master
     email_addr = StringVar()
@@ -343,7 +341,7 @@ root.protocol('WM_DELETE_WINDOW', on_close)
 
 # bound to text box for email
 # send_email = False
-
+email_addr = None
 # email_addr.trace('w', delay_timelapse)
 
 ## bound to RGB sliders
