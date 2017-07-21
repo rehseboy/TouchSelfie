@@ -231,7 +231,7 @@ def sendPic(email):
 
 def entry_point(master):
     global email_addr
-    self = Toplevel(master)
+    self = Toplevel(master, height=400, menu=None)
     self.master = master
     email_addr = StringVar()
 
@@ -286,7 +286,7 @@ def entry_point(master):
     frame = Frame(self)
     tkkb_button = Button(frame, command=launch_tkkb, text="Launch-KB")
     # tkkb_button.pack(side=LEFT)
-    send_button = Button(frame, text="Send Email & Start", command=set_email_and_start, font=custom.BUTTON_FONT)
+    send_button = Button(frame, text="Set Email & Start", command=set_email_and_start, font=custom.BUTTON_FONT)
     send_button.pack(side=RIGHT)
 
     ## add a text entry box for email addresses
@@ -294,7 +294,7 @@ def entry_point(master):
     etext.pack()
     frame.pack()
     next_frame = Frame(self)
-    Button(next_frame, command=close_and_start, text="Start(Don't Send Email)", font=custom.BUTTON_FONT).pack(side=RIGHT)
+    Button(next_frame, command=close_and_start, text="Start (Don't Set Email)", font=custom.BUTTON_FONT).pack(side=RIGHT)
     next_frame.pack()
     etext.bind('<Button-1>', launch_tkkb)
 
