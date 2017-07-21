@@ -173,13 +173,13 @@ def force_snap(countdown1=None):
         countdown1 = custom.countdown1
     check_and_snap(force=True, countdown1=countdown1,email=None)
 
-
-def delay_timelapse(*args):
-    '''
-    Prevent a timelapse snapshot when someone is typeing an email address
-    '''
-    global last_snap
-    last_snap = time.time()
+#
+# def delay_timelapse(*args):
+#     '''
+#     Prevent a timelapse snapshot when someone is typeing an email address
+#     '''
+#     global last_snap
+#     last_snap = time.time()
 
 
 ## send RGB changes to alamode
@@ -227,6 +227,7 @@ def sendPic(email):
 def entry_point(master):
     self = Toplevel(master)
     self.master = master
+    email_addr = StringVar()
 
     def set_email_and_start():
         close()
@@ -330,9 +331,9 @@ root.after_id = None
 root.protocol('WM_DELETE_WINDOW', on_close)
 
 # bound to text box for email
-send_email = False
-email_addr = StringVar()
-email_addr.trace('w', delay_timelapse)
+# send_email = False
+# email_addr = StringVar()
+# email_addr.trace('w', delay_timelapse)
 
 ## bound to RGB sliders
 r_var = IntVar()
