@@ -278,7 +278,7 @@ def entry_point(master):
     ## add a text entry box for email addresses
     etext = Entry(frame, width=40, textvariable=email_addr, font=custom.BUTTON_FONT)
     etext.pack()
-    Button(frame, command=close_and_start(), text="Don't Send Email", font=custom.BUTTON_FONT).pack(side=RIGHT)
+    Button(frame, command=close_and_start, text="Don't Send Email", font=custom.BUTTON_FONT).pack(side=RIGHT)
     frame.pack()
     etext.bind('<Button-1>', launch_tkkb)
 
