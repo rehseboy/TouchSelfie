@@ -84,6 +84,8 @@ def check_and_snap(force=False, countdown1=None, email=None):
 
     if email is not None:
         print 'Inside snap with email %s' % email.get()
+    else:
+        print 'Inside snap without email'
 
     if countdown1 is None:
         countdown1 = custom.countdown1
