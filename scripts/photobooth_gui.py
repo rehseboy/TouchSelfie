@@ -371,10 +371,10 @@ can.pack()
 # can.bind('<Button-1>', snap_callback)
 
 ### take the first photo (no delay)
-# can.delete("text")
-# can.create_text(WIDTH / 2, HEIGHT / 2, text="SMILE ;-)", font=custom.CANVAS_FONT, tags="splash")
-# # can.updater()
-# force_snap(countdown1=0)
+can.delete("text")
+can.create_text(WIDTH / 2, HEIGHT / 2, text="SMILE ;-)", font=custom.CANVAS_FONT, tags="splash")
+# can.updater()
+force_snap(countdown1=0)
 
 ### check button after waiting for 200 ms
 # root.after(200, check_and_snap)
