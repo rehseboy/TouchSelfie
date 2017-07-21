@@ -83,7 +83,7 @@ def check_and_snap(force=False, countdown1=None, email=None):
     global image_tk, Button_enabled, last_snap, signed_in
 
     if email is not None:
-        print 'Inside snap with email %s' % email
+        print 'Inside snap with email %s' % email.get()
 
     if countdown1 is None:
         countdown1 = custom.countdown1
@@ -139,7 +139,7 @@ def check_and_snap(force=False, countdown1=None, email=None):
                     try:
                         googleUpload(custom.PROC_FILENAME)
                         if email is not None:
-                            sendPic(email)
+                            sendPic(email.get())
                     except Exception, e:
                         tkMessageBox.showinfo("Upload Error", str(e) +
                                               '\nUpload Failed:%s' % e)
@@ -174,7 +174,7 @@ def on_close(*args, **kw):
 def force_snap(countdown1=None):
     if countdown1 is None:
         countdown1 = custom.countdown1
-    check_and_snap(force=True, countdown1=countdown1,email=None)
+    check_and_snap(force=True, countdown1=countdown1,email=email_addr)
 
 #
 # def delay_timelapse(*args):
@@ -230,15 +230,15 @@ def sendPic(email):
 def entry_point(master):
     self = Toplevel(master)
     self.master = master
-    email_addr = StringVar()
 
     def set_email_and_start():
         print 'Starting with email %s' % email_addr.get()
         close()
-        check_and_snap(force=True, countdown1=custom.countdown1, email=email_addr.get())
+        check_and_snap(force=True, countdown1=custom.countdown1, email=email_addr)
 
     def close_and_start():
         print 'Starting without email'
+        email_addr = None
         close()
         check_and_snap(force=True, countdown1=custom.countdown1)
 
@@ -337,7 +337,7 @@ root.protocol('WM_DELETE_WINDOW', on_close)
 
 # bound to text box for email
 # send_email = False
-# email_addr = StringVar()
+email_addr = StringVar()
 # email_addr.trace('w', delay_timelapse)
 
 ## bound to RGB sliders
