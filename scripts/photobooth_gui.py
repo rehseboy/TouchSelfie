@@ -233,7 +233,7 @@ def entry_point(master):
     global email_addr
     self = Toplevel(master)
     self.geometry("%dx%d%+d%+d" % (WIDTH, 400, 0, 40))
-    # self.overrideredirect(1)
+    self.overrideredirect(1)
     # self.master = master
     email_addr = StringVar()
 
@@ -267,7 +267,7 @@ def entry_point(master):
             Tkkb(tkkb, etext, onEnter=onEnter)
             etext.config(state=NORMAL)
             tkkb.wm_attributes("-topmost", 1)
-            tkkb.transient(root)
+            tkkb.transient(self)
             tkkb_button.config(command=kill_tkkb, text="Close KB")
             tkkb.protocol("WM_DELETE_WINDOW", kill_tkkb)
 
