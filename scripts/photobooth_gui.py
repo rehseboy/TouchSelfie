@@ -368,8 +368,6 @@ if custom.SIGN_ME_IN:
 else:
     signed_in = False
 
-entry_point(master=root)
-
 ### take the first photo (no delay)
 can.delete("text")
 can.create_text(WIDTH / 2, HEIGHT / 2, text="SMILE ;-)", font=custom.CANVAS_FONT, tags="splash")
@@ -383,5 +381,5 @@ if custom.SIGN_ME_IN:
 root.wm_title("Asja & Michael's Photobooth")
 
 on_rgb_change()
-
+entry_point(master=root)
 root.mainloop()
