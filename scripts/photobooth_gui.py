@@ -135,6 +135,8 @@ def check_and_snap(force=False, countdown1=None):
                 else:
                     try:
                         googleUpload(custom.PROC_FILENAME)
+                        if send_email:
+                            sendPic()
                     except Exception, e:
                         tkMessageBox.showinfo("Upload Error", str(e) +
                                               '\nUpload Failed:%s' % e)
@@ -196,13 +198,42 @@ def labeled_slider(parent, label, from_, to, side, variable):
 def snap_callback(*args):
     force_snap()
 
+# if they enter an email address send photo. add error checking
+def sendPic(*args):
+    if signed_in:
+        print 'sending photo by email to %s' % email_addr.get()
+        try:
+            sendMail(email_addr.get().strip(),
+                     custom.emailSubject,
+                     custom.emailMsg,
+                     custom.PROC_FILENAME)
+
+        except Exception, e:
+            print 'Send Failed::', e
+            can.delete("all")
+            can.create_text(WIDTH / 2, HEIGHT - STATUS_H_OFFSET, text="Send Failed", font=custom.CANVAS_FONT,
+                            tags="text")
+            can.update()
+            time.sleep(1)
+            can.delete("all")
+            im = Image.open(custom.PROC_FILENAME)
+            display_image(im)
+            can.create_text(WIDTH / 2, HEIGHT - STATUS_H_OFFSET, text="Press button when ready",
+                            font=custom.CANVAS_FONT, tags="text")
+            can.update()
+    else:
+        print 'Not signed in'
+
 def entry_point(master):
+    global send_email, email_addr
+    email_addr = ""
     self = Toplevel(master)
     self.master = master
 
     def close_and_start():
-        force_snap()
+        send_email = True
         close()
+        force_snap()
 
     def close():
         self.destroy()
@@ -241,33 +272,6 @@ def entry_point(master):
             except:
                 pass
 
-    # if they enter an email address send photo. add error checking
-    def sendPic(*args):
-        if signed_in:
-            print 'sending photo by email to %s' % email_addr.get()
-            try:
-                sendMail(email_addr.get().strip(),
-                         custom.emailSubject,
-                         custom.emailMsg,
-                         custom.PROC_FILENAME)
-                etext.delete(0, END)
-                etext.focus_set()
-                kill_tkkb()
-            except Exception, e:
-                print 'Send Failed::', e
-                can.delete("all")
-                can.create_text(WIDTH / 2, HEIGHT - STATUS_H_OFFSET, text="Send Failed", font=custom.CANVAS_FONT,
-                                tags="text")
-                can.update()
-                time.sleep(1)
-                can.delete("all")
-                im = Image.open(custom.PROC_FILENAME)
-                display_image(im)
-                can.create_text(WIDTH / 2, HEIGHT - STATUS_H_OFFSET, text="Press button when ready",
-                                font=custom.CANVAS_FONT, tags="text")
-                can.update()
-        else:
-            print 'Not signed in'
 
     frame = Frame(self)
     tkkb_button = Button(frame, command=launch_tkkb, text="Launch-KB")
@@ -325,6 +329,7 @@ root.after_id = None
 root.protocol('WM_DELETE_WINDOW', on_close)
 
 # bound to text box for email
+send_email = False
 email_addr = StringVar()
 email_addr.trace('w', delay_timelapse)
 
