@@ -231,7 +231,7 @@ def sendPic(email):
 
 def entry_point(master):
     global email_addr
-    self = Toplevel(master, height=400, menu=None)
+    self = Toplevel(master=master, height=400, menu=None)
     self.master = master
     email_addr = StringVar()
 
