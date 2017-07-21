@@ -25,41 +25,6 @@ def screenshot(*args):
     import screenshot
     screenshot.snap()
 
-def launch_tkkb(*args):
-    '''
-    Launch on screen keyboard program called tkkb-keyboard.
-    install with '$ sudo apt-get install tkkb-keyboard'
-    '''
-    global tkkb
-    if tkkb is None:
-        tkkb = Toplevel(root)
-
-        def onEnter(*args):
-            kill_tkkb()
-            sendPic()
-
-        Tkkb(tkkb, etext, onEnter=onEnter)
-        etext.config(state=NORMAL)
-        tkkb.wm_attributes("-topmost", 1)
-        tkkb.transient(root)
-        tkkb_button.config(command=kill_tkkb, text="Close KB")
-        tkkb.protocol("WM_DELETE_WINDOW", kill_tkkb)
-
-
-def kill_tkkb():
-    '''
-    Delete on screen keyboard program called tkkb-keyboard.
-    '''
-    global tkkb
-    if tkkb is not None:
-        tkkb.destroy()
-        try:
-            tkkb_button.config(command=launch_tkkb, text="Open KB")
-            tkkb = None
-        except:
-            pass
-
-
 def interrupted(signum, frame):
     "called when serial read times out"
     print 'interrupted!'
@@ -93,7 +58,6 @@ def timelapse_due():
     '''
     if custom.TIMELAPSE > 0:
         togo = custom.TIMELAPSE - (time.time() - last_snap)
-        timelapse_label.config(text=str(int(togo)))
         out = togo < 0
     else:
         out = False
@@ -120,12 +84,12 @@ def check_and_snap(force=False, countdown1=None):
 
     if countdown1 is None:
         countdown1 = custom.countdown1
-    if signed_in:
-        send_button.config(state=NORMAL)
-        etext.config(state=NORMAL)
-    else:
-        send_button.config(state=DISABLED)
-        etext.config(state=DISABLED)
+    # if signed_in:
+    #     send_button.config(state=NORMAL)
+    #     etext.config(state=NORMAL)
+    # else:
+    #     send_button.config(state=DISABLED)
+    #     etext.config(state=DISABLED)
     if (Button_enabled == False):
         ## inform alamode that we are ready to receive button press events
         ## ser.write('e') #enable button (not used)
@@ -208,35 +172,6 @@ def force_snap(countdown1=None):
     check_and_snap(force=True, countdown1=countdown1)
 
 
-# if they enter an email address send photo. add error checking
-def sendPic(*args):
-    if signed_in:
-        print 'sending photo by email to %s' % email_addr.get()
-        try:
-            sendMail(email_addr.get().strip(),
-                     custom.emailSubject,
-                     custom.emailMsg,
-                     custom.PROC_FILENAME)
-            etext.delete(0, END)
-            etext.focus_set()
-            kill_tkkb()
-        except Exception, e:
-            print 'Send Failed::', e
-            can.delete("all")
-            can.create_text(WIDTH / 2, HEIGHT - STATUS_H_OFFSET, text="Send Failed", font=custom.CANVAS_FONT,
-                            tags="text")
-            can.update()
-            time.sleep(1)
-            can.delete("all")
-            im = Image.open(custom.PROC_FILENAME)
-            display_image(im)
-            can.create_text(WIDTH / 2, HEIGHT - STATUS_H_OFFSET, text="Press button when ready",
-                            font=custom.CANVAS_FONT, tags="text")
-            can.update()
-    else:
-        print 'Not signed in'
-
-
 def delay_timelapse(*args):
     '''
     Prevent a timelapse snapshot when someone is typeing an email address
@@ -260,6 +195,104 @@ def labeled_slider(parent, label, from_, to, side, variable):
 
 def snap_callback(*args):
     force_snap()
+
+def entry_point(master):
+    self = Toplevel(master)
+    self.master = master
+
+    def close_and_start():
+        force_snap()
+        close()
+
+    def close():
+        self.destroy()
+
+    def launch_tkkb(*args):
+        '''
+        Launch on screen keyboard program called tkkb-keyboard.
+        install with '$ sudo apt-get install tkkb-keyboard'
+        '''
+        global tkkb
+        if tkkb is None:
+            tkkb = Toplevel(root)
+
+            def onEnter(*args):
+                kill_tkkb()
+                sendPic()
+
+            Tkkb(tkkb, etext, onEnter=onEnter)
+            etext.config(state=NORMAL)
+            tkkb.wm_attributes("-topmost", 1)
+            tkkb.transient(root)
+            tkkb_button.config(command=kill_tkkb, text="Close KB")
+            tkkb.protocol("WM_DELETE_WINDOW", kill_tkkb)
+
+
+    def kill_tkkb():
+        '''
+        Delete on screen keyboard program called tkkb-keyboard.
+        '''
+        global tkkb
+        if tkkb is not None:
+            tkkb.destroy()
+            try:
+                tkkb_button.config(command=launch_tkkb, text="Open KB")
+                tkkb = None
+            except:
+                pass
+
+    # if they enter an email address send photo. add error checking
+    def sendPic(*args):
+        if signed_in:
+            print 'sending photo by email to %s' % email_addr.get()
+            try:
+                sendMail(email_addr.get().strip(),
+                         custom.emailSubject,
+                         custom.emailMsg,
+                         custom.PROC_FILENAME)
+                etext.delete(0, END)
+                etext.focus_set()
+                kill_tkkb()
+            except Exception, e:
+                print 'Send Failed::', e
+                can.delete("all")
+                can.create_text(WIDTH / 2, HEIGHT - STATUS_H_OFFSET, text="Send Failed", font=custom.CANVAS_FONT,
+                                tags="text")
+                can.update()
+                time.sleep(1)
+                can.delete("all")
+                im = Image.open(custom.PROC_FILENAME)
+                display_image(im)
+                can.create_text(WIDTH / 2, HEIGHT - STATUS_H_OFFSET, text="Press button when ready",
+                                font=custom.CANVAS_FONT, tags="text")
+                can.update()
+        else:
+            print 'Not signed in'
+
+    frame = Frame(self)
+    tkkb_button = Button(frame, command=launch_tkkb, text="Launch-KB")
+    # tkkb_button.pack(side=LEFT)
+    send_button = Button(frame, text="SendEmail", command=sendPic, font=custom.BUTTON_FONT)
+    send_button.pack(side=RIGHT)
+
+    ## add a text entry box for email addresses
+    etext = Entry(frame, width=40, textvariable=email_addr, font=custom.BUTTON_FONT)
+    etext.pack()
+    frame.pack()
+    etext.bind('<Button-1>', launch_tkkb)
+
+    ## sign in to google?
+    if custom.SIGN_ME_IN:
+        signed_in = setup_google()
+    else:
+        signed_in = False
+    if not signed_in:
+        send_button.config(state=DISABLED)
+        etext.config(state=DISABLED)
+
+    etext.focus_set()
+
+    Button(frame, command=close_and_start(), text="Don't Send Email", font=custom.BUTTON_FONT).pack(side=RIGHT)
 
 
 ## This is a simple GUI, so we allow the root singleton to do the legwork
@@ -294,7 +327,6 @@ tkkb = None
 ## for clean shutdowns
 root.after_id = None
 
-
 root.protocol('WM_DELETE_WINDOW', on_close)
 
 # bound to text box for email
@@ -317,26 +349,10 @@ w, h = root.winfo_screenwidth(), root.winfo_screenheight()
 # root.overrideredirect(1)
 root.geometry("%dx%d+0+0" % (WIDTH, HEIGHT))
 root.focus_set()  # <-- move focus to this widget
-frame = Frame(root)
 
 # Button(frame, text="Exit", command=on_close).pack(side=LEFT)
-Button(frame, text="Customize", command=lambda *args: custom.customize(root)).pack(side=LEFT)
-tkkb_button = Button(frame, command=launch_tkkb, text="Launch-KB")
-# tkkb_button.pack(side=LEFT)
-send_button = Button(frame, text="SendEmail", command=sendPic, font=custom.BUTTON_FONT)
-send_button.pack(side=RIGHT)
+# Button(frame, text="Customize", command=lambda *args: custom.customize(root)).pack(side=LEFT)
 
-if custom.TIMELAPSE > 0:
-    timelapse_label = Label(frame, text=custom.TIMELAPSE)
-else:
-    timelapse_label = Label(frame, text='')
-timelapse_label.pack(side=LEFT)
-
-## add a text entry box for email addresses
-etext = Entry(frame, width=40, textvariable=email_addr, font=custom.BUTTON_FONT)
-etext.pack()
-frame.pack()
-etext.bind('<Button-1>', launch_tkkb)
 
 ## add a software button in case hardware button is not available
 interface_frame = Frame(root)
@@ -349,29 +365,22 @@ interface_frame.pack(side=RIGHT)
 can = Canvas(root, width=WIDTH, height=HEIGHT)
 can.pack()
 
-can.bind('<Button-1>', snap_callback)
-
-## sign in to google?
-if custom.SIGN_ME_IN:
-    signed_in = setup_google()
-else:
-    signed_in = False
-if not signed_in:
-    send_button.config(state=DISABLED)
-    etext.config(state=DISABLED)
+# can.bind('<Button-1>', snap_callback)
 
 ### take the first photo (no delay)
 can.delete("text")
 can.create_text(WIDTH / 2, HEIGHT / 2, text="SMILE ;-)", font=custom.CANVAS_FONT, tags="splash")
-can.update()
+can.updater()
 force_snap(countdown1=0)
 
 ### check button after waiting for 200 ms
-root.after(200, check_and_snap)
+# root.after(200, check_and_snap)
 if custom.SIGN_ME_IN:
     root.after(custom.oauth2_refresh_period, refresh_oauth2_credentials)
 root.wm_title("Asja & Michael's Photobooth")
-etext.focus_set()
-# etext.bind("<Enter>", sendPic)
+
 on_rgb_change()
+
+entry_point(master=root)
+
 root.mainloop()
