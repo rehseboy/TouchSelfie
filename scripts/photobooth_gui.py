@@ -82,6 +82,9 @@ def check_and_snap(force=False, countdown1=None, email=None):
     '''
     global image_tk, Button_enabled, last_snap, signed_in
 
+    if email is not None:
+        print 'Inside snap with email %s' % email
+
     if countdown1 is None:
         countdown1 = custom.countdown1
     # if signed_in:
@@ -230,10 +233,12 @@ def entry_point(master):
     email_addr = StringVar()
 
     def set_email_and_start():
+        print 'Starting with email %s' % email_addr.get()
         close()
         check_and_snap(force=True, countdown1=custom.countdown1, email=email_addr.get())
 
     def close_and_start():
+        print 'Starting without email'
         close()
         check_and_snap(force=True, countdown1=custom.countdown1)
 
@@ -260,7 +265,6 @@ def entry_point(master):
             tkkb_button.config(command=kill_tkkb, text="Close KB")
             tkkb.protocol("WM_DELETE_WINDOW", kill_tkkb)
 
-
     def kill_tkkb():
         '''
         Delete on screen keyboard program called tkkb-keyboard.
@@ -278,15 +282,16 @@ def entry_point(master):
     frame = Frame(self)
     tkkb_button = Button(frame, command=launch_tkkb, text="Launch-KB")
     # tkkb_button.pack(side=LEFT)
-    send_button = Button(frame, text="Send Email", command=set_email_and_start, font=custom.BUTTON_FONT)
+    send_button = Button(frame, text="Send Email & Start", command=set_email_and_start, font=custom.BUTTON_FONT)
     send_button.pack(side=RIGHT)
 
     ## add a text entry box for email addresses
     etext = Entry(frame, width=40, textvariable=email_addr, font=custom.BUTTON_FONT)
     etext.pack()
-    Button(frame, command=close_and_start, text="Don't Send Email", font=custom.BUTTON_FONT).pack(side=RIGHT)
-
     frame.pack()
+    next_frame = Frame(self)
+    Button(next_frame, command=close_and_start, text="Start(Don't Send Email)", font=custom.BUTTON_FONT).pack(side=RIGHT)
+    next_frame.pack()
     etext.bind('<Button-1>', launch_tkkb)
 
     if not signed_in:
