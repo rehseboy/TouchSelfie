@@ -31,7 +31,7 @@ from constants import SCREEN_W, SCREEN_H, WHITE, BLACK
 
 FONTSIZE=100
 font = ('Times', FONTSIZE)
-
+mycamera.vflip = True
 def safe_set_led(camera, state):
     try:
         camera.led = state

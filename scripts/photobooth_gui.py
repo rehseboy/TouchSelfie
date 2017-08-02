@@ -172,7 +172,6 @@ def on_close(*args, **kw):
     b_var.set(0)
     root.quit()
 
-
 def force_snap(countdown1=None):
     if countdown1 is None:
         countdown1 = custom.countdown1
@@ -305,6 +304,11 @@ def entry_point(master):
         etext.config(state=DISABLED)
 
     etext.focus_set()
+
+    images_frame = Frame(self)
+    image1 = ImageTk.PhotoImage(file=)
+    b1 = Button(images_frame)
+    b2 = Button(images_frame)
 
 
 ## This is a simple GUI, so we allow the root singleton to do the legwork

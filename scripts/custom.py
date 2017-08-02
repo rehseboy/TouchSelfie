@@ -72,7 +72,7 @@ oauth2_refresh_period = 1800000
 restore_conf()
 
 ### set up GUI
-BUTTON_FONT = ('Times', 24)
+BUTTON_FONT = ('FreeSerif', 24)
 CANVAS_FONT = ("times", 50)
 
 ## usually not need to change these.
