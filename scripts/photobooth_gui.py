@@ -306,9 +306,11 @@ def entry_point(master):
     etext.focus_set()
 
     images_frame = Frame(self)
-    image1 = ImageTk.PhotoImage(file=)
-    b1 = Button(images_frame)
-    b2 = Button(images_frame)
+    image1 = ImageTk.PhotoImage(file='/home/pi/Downloads/BG-AM.png')
+    image2 = ImageTk.PhotoImage(file='/home/pi/Downloads/1-2-stars-picture.png')
+    b1 = Button(images_frame, image=image1).pack(side=LEFT)
+    b2 = Button(images_frame, image=image2).pack(side=RIGHT)
+    images_frame.pack()
 
 
 ## This is a simple GUI, so we allow the root singleton to do the legwork
