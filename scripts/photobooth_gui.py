@@ -20,6 +20,10 @@ from constants import *
 ### booth cam may need to present a file dialog gui.  So import after root is defined.
 from boothcam import *
 
+IMAGE_2_PATH = '/home/pi/Downloads/1-2-stars-picture.png'
+
+IMAGE_1_PATH = '/home/pi/Downloads/BG-AM.png'
+
 
 def screenshot(*args):
     import screenshot
@@ -293,6 +297,20 @@ def entry_point(master):
         photo = photo.resize((int(width * scale), int(height * scale)))
         return ImageTk.PhotoImage(photo)
 
+    def set_bg(button):
+        if button == 1:
+            on = b1
+            off = b2
+            path = IMAGE_1_PATH
+        else:
+            on = b2
+            off = b1
+            path = IMAGE_2_PATH
+
+        on.config(bg='blue')
+        off.config(bg=None)
+        custom.set_logo(path)
+
 
     frame = Frame(self)
     tkkb_button = Button(frame, command=launch_tkkb, text="Launch-KB")
@@ -316,13 +334,13 @@ def entry_point(master):
     etext.focus_set()
 
     images_frame = Frame(self)
-    image1 = get_resized('/home/pi/Downloads/BG-AM.png')
-    image2 = get_resized('/home/pi/Downloads/1-2-stars-picture.png')
-    b1 = Button(images_frame)
+    image1 = get_resized(IMAGE_1_PATH)
+    image2 = get_resized(IMAGE_2_PATH)
+    b1 = Button(images_frame, command= lambda *args: set_bg(1))
     b1.config(image=image1)
     b1.image = image1
     b1.pack(side=LEFT)
-    b2 = Button(images_frame)
+    b2 = Button(images_frame, command= lambda *args: set_bg(2))
     b2.config(image=image2)
     b2.image = image2
     b2.pack(side=RIGHT)

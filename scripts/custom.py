@@ -71,6 +71,9 @@ oauth2_refresh_period = 1800000
 
 restore_conf()
 
+def set_logo(path):
+    logopng = path
+
 ### set up GUI
 BUTTON_FONT = ('FreeSerif', 24)
 CANVAS_FONT = ("times", 50)
