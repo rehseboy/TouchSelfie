@@ -31,7 +31,7 @@ from constants import SCREEN_W, SCREEN_H, WHITE, BLACK
 
 FONTSIZE=100
 font = ('Times', FONTSIZE)
-mycamera.vflip = True
+
 def safe_set_led(camera, state):
     try:
         camera.led = state
@@ -59,6 +59,7 @@ def setup_google():
     return out
 
 def countdown(camera, can, countdown1):
+    camera.vflip = True
     camera.start_preview()
     # camera.start_preview(fullscreen=False,
     #                     crop=(50, 150, 800, 480),
@@ -107,6 +108,7 @@ def snap(can, countdown1, effect='None'):
             command = (['cp', custom.PROC_FILENAME, new_filename])
             call(command)
         camera = mycamera.PiCamera()
+        camera.vflip = True
         countdown(camera, can, countdown1)
         if effect == 'None':
             camera.capture(custom.RAW_FILENAME, resize=(1366, 768))
