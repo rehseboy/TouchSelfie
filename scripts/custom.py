@@ -72,6 +72,7 @@ oauth2_refresh_period = 1800000
 restore_conf()
 
 def set_logo(path):
+    global logopng
     logopng = path
 
 ### set up GUI
