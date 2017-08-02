@@ -283,6 +283,16 @@ def entry_point(master):
             except:
                 pass
 
+    def get_resized(path):
+        photo = Image.open(path)
+        width, height = photo.size
+        if SCREEN_W / width < SCREEN_H / height:
+            scale = (.25 * SCREEN_W) / width
+        else:
+            scale = (.25 * SCREEN_H) / height
+        photo = photo.resize((int(width * scale), int(height * scale)))
+        return ImageTk.PhotoImage(photo)
+
 
     frame = Frame(self)
     tkkb_button = Button(frame, command=launch_tkkb, text="Launch-KB")
@@ -306,10 +316,14 @@ def entry_point(master):
     etext.focus_set()
 
     images_frame = Frame(self)
-    image1 = ImageTk.PhotoImage(file='/home/pi/Downloads/BG-AM.png')
-    image2 = ImageTk.PhotoImage(file='/home/pi/Downloads/1-2-stars-picture.png')
-    b1 = Button(images_frame, image=image1).pack(side=LEFT)
-    b2 = Button(images_frame, image=image2).pack(side=RIGHT)
+    image1 = get_resized('/home/pi/Downloads/BG-AM.png')
+    image2 = get_resized('/home/pi/Downloads/1-2-stars-picture.png')
+    b1 = Button(images_frame)
+    b1.config(image=image1)
+    b1.pack(side=LEFT)
+    b2 = Button(images_frame)
+    b2.config(image=image2)
+    b2.pack(side=RIGHT)
     images_frame.pack()
 
 
