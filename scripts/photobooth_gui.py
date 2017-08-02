@@ -320,9 +320,11 @@ def entry_point(master):
     image2 = get_resized('/home/pi/Downloads/1-2-stars-picture.png')
     b1 = Button(images_frame)
     b1.config(image=image1)
+    b1.image = image1
     b1.pack(side=LEFT)
     b2 = Button(images_frame)
     b2.config(image=image2)
+    b2.image = image2
     b2.pack(side=RIGHT)
     images_frame.pack()
 
