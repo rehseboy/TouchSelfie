@@ -303,7 +303,7 @@ def set_email(master):
         global tkkb
         if tkkb is None:
             tkkb = Toplevel(self)
-            tkkb.geometry("%dx%d%+d%+d" % (WIDTH, HEIGHT * .75, 0, 50))
+            tkkb.geometry("%dx%d%+d%+d" % (WIDTH, HEIGHT * .5, 0, 100))
 
             def onEnter(*args):
                 kill_tkkb()
