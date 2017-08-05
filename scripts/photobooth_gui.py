@@ -319,13 +319,14 @@ def entry_point(master):
 
 
     frame = Frame(self)
+    frame.config(bg=BG_COLOR)
     tkkb_button = Button(frame, command=launch_tkkb, text="Launch-KB")
     # tkkb_button.pack(side=LEFT)
     send_button = Button(frame, text="Set Email & Start", command=set_email_and_start, font=custom.BUTTON_FONT, bg=BG_COLOR, fg=FG_COLOR)
     send_button.pack(side=RIGHT)
 
     ## add a text entry box for email addresses
-    etext = Entry(frame, width=40, textvariable=email_addr, font=custom.BUTTON_FONT, bg=BG_COLOR)
+    etext = Entry(frame, width=40, textvariable=email_addr, font=custom.BUTTON_FONT)
     etext.pack()
     frame.pack()
     next_frame = Frame(self)
