@@ -91,7 +91,7 @@ class BackSpace(Key):
         
 class Tkkb:
     def __init__(self, r, entry, onEnter=None, fill='#000'):
-        c = Canvas(r, width=width, height=height)
+        c = Canvas(r, width=width, height=height, fill=fill)
         c.pack()
         c.onEnter = onEnter
 
