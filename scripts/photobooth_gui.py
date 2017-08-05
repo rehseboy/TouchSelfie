@@ -343,11 +343,11 @@ def entry_point(master):
     image1 = get_resized(IMAGE_1_PATH)
     image2 = get_resized(IMAGE_2_PATH)
     b1 = Button(images_frame, command= lambda *args: set_bg(1))
-    b1.config(image=image1,activeforground=FG_COLOR)
+    b1.config(image=image1,activeforeground=FG_COLOR)
     b1.image = image1
     b1.pack(side=LEFT)
     b2 = Button(images_frame, command= lambda *args: set_bg(2))
-    b2.config(image=image2,activeforground=FG_COLOR)
+    b2.config(image=image2,activeforeground=FG_COLOR)
     b2.image = image2
     b2.pack(side=RIGHT)
     images_frame.pack()
