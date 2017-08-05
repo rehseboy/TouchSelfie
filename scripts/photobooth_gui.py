@@ -422,7 +422,7 @@ def set_bg_and_start(master, email_addr):
 
 def prompt(master):
     self = Toplevel(master)
-    self.geometry("%dx%d%+d%+d" % (WIDTH, HEIGHT, 0, -30))
+    self.geometry("%dx%d%+d%+d" % (WIDTH/2, HEIGHT/2, 50, 50))
 
     def again():
         self.destroy()
@@ -524,5 +524,5 @@ if custom.SIGN_ME_IN:
 root.wm_title("Asja & Michael's Photobooth")
 
 on_rgb_change()
-entry_point(master=root)
+# entry_point(master=root)
 root.mainloop()
