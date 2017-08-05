@@ -427,7 +427,7 @@ snap_button = Button(interface_frame, text="snap", command=force_snap, font=cust
 interface_frame.pack(side=RIGHT)
 
 ## the canvas will display the images
-can = Canvas(root, width=WIDTH, height=HEIGHT)
+can = Canvas(root, width=WIDTH, height=HEIGHT, bg=BG_COLOR)
 can.pack()
 
 # can.bind('<Button-1>', snap_callback)
