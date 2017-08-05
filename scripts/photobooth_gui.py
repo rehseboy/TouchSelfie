@@ -382,8 +382,10 @@ def set_bg_and_start(master, email):
     b2.config(image=image2)
     b2.image = image2
     b2.pack(side=RIGHT)
-    Button(images_frame, text="Start!", command=set_email_and_start, font=custom.BUTTON_FONT).pack(side=RIGHT)
     images_frame.pack()
+    frame = Frame(self)
+    Button(frame, text="Start!", command=set_email_and_start, font=custom.BUTTON_FONT).pack()
+    frame.pack();
     set_bg(1)
 
 ## This is a simple GUI, so we allow the root singleton to do the legwork
