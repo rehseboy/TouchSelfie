@@ -411,8 +411,8 @@ root.geometry("%dx%d+0+0" % (WIDTH, HEIGHT))
 root.focus_set()  # <-- move focus to this widget
 
 frame = Frame(root)
-Button(frame, text="Again!", command=force_snap, font=custom.BUTTON_FONT,bg=BG_COLOR).pack(side=LEFT)
-Button(frame, text="All Done!", command=lambda *args: entry_point(root), font=custom.BUTTON_FONT, bg=BG_COLOR).pack(side=RIGHT)
+Button(frame, text="Again!", command=force_snap, font=custom.BUTTON_FONT,bg=BG_COLOR,fg=FG_COLOR).pack(side=LEFT)
+Button(frame, text="All Done!", command=lambda *args: entry_point(root), font=custom.BUTTON_FONT, bg=BG_COLOR,fg=FG_COLOR).pack(side=RIGHT)
 frame.pack()
 # Button(frame, text="Exit", command=on_close).pack(side=LEFT)
 # Button(frame, text="Customize", command=lambda *args: custom.customize(root)).pack(side=LEFT)
