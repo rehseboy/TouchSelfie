@@ -259,19 +259,19 @@ def entry_point(master):
     text_frame = Frame(self)
     welcome = Text(text_frame, font=('URW Chancery L', 24, 'bold'), height=1, relief=FLAT)
     welcome.tag_configure('tag-center', justify=CENTER)
-    welcome.insert(END, 'Wecome to Asja & Michael\'s Wedding!', 'tag-center')
+    welcome.insert(END, 'Welcome to Asja & Michael\'s Wedding!', 'tag-center')
     welcome.pack(fill=BOTH, expand=True)
     text_frame.pack(pady=10)
 
     frame = Frame(self)
 
-    photo_tk = get_resized(WELCOME_IMAGE_PATH, .75,.75)
+    photo_tk = get_resized(WELCOME_IMAGE_PATH, .7,.7)
 
     logo_label = Label(frame, image=photo_tk)
     logo_label.photo_tk = photo_tk
     logo_label.pack(side=TOP)
 
-    Button(frame, command=close_and_start, text="Let's get started!", font=custom.BUTTON_FONT).pack(side=BOTTOM)
+    Button(frame, command=close_and_start, text="Let's get started!", font=custom.BUTTON_FONT).pack(side=BOTTOM, pady=10)
     frame.pack()
 
 def set_email(master):
