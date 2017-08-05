@@ -24,7 +24,7 @@ IMAGE_2_PATH = '/home/pi/Downloads/1-2-stars-picture.png'
 
 IMAGE_1_PATH = '/home/pi/Downloads/BG-AM.png'
 
-BG_COLOR = '#000080'
+BG_COLOR = '#1D2951'
 FG_COLOR = '#D4AF37'
 
 
@@ -298,9 +298,9 @@ def entry_point(master):
         photo = Image.open(path)
         width, height = photo.size
         if SCREEN_W / width < SCREEN_H / height:
-            scale = (.25 * SCREEN_W) / width
+            scale = (.5 * SCREEN_W) / width
         else:
-            scale = (.25 * SCREEN_H) / height
+            scale = (.5 * SCREEN_H) / height
         photo = photo.resize((int(width * scale), int(height * scale)))
         return ImageTk.PhotoImage(photo)
 
