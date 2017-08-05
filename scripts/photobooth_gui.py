@@ -263,9 +263,10 @@ def entry_point(master):
 
     logo_label = Label(frame, image=photo_tk)
     logo_label.photo_tk = photo_tk
-    logo_label.pack(side=CENTER)
+    logo_label.pack(side=TOP)
 
-    Button(frame, command=close_and_start, text="Let's get started!", font=custom.BUTTON_FONT).pack(side=CENTER)
+    Button(frame, command=close_and_start, text="Let's get started!", font=custom.BUTTON_FONT).pack(side=BOTTOM)
+    frame.pack()
 
 def set_email(master):
     global email_addr
@@ -382,7 +383,7 @@ def set_bg_and_start(master, email):
     b2.image = image2
     b2.pack(side=RIGHT)
     send_button = Button(images_frame, text="Start!", command=set_email_and_start, font=custom.BUTTON_FONT)
-    send_button.pack(side=CENTER)
+    send_button.pack(side=BOTTOM)
     images_frame.pack()
     set_bg(1)
 
