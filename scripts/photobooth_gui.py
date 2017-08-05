@@ -340,7 +340,7 @@ def set_email(master):
     tkkb_button = Button(email_frame, command=launch_tkkb, text="Launch-KB")
 
     ## add a text entry box for email addresses
-    etext = Entry(email_frame, fill=X, textvariable=email_addr, font=custom.BUTTON_FONT)
+    etext = Entry(email_frame, width=50, textvariable=email_addr, font=custom.BUTTON_FONT)
     etext.pack()
     email_frame.pack()
 
