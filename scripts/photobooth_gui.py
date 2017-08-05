@@ -24,6 +24,8 @@ IMAGE_2_PATH = '/home/pi/Downloads/1-2-stars-picture.png'
 
 IMAGE_1_PATH = '/home/pi/Downloads/BG-AM.png'
 
+WELCOME_IMAGE_PATH = '/home/pi/Downloads/AsjaMichael.jpg'
+
 BG_COLOR = '#00002C'
 FG_COLOR = '#D4AF37'
 
@@ -236,27 +238,52 @@ def sendPic(email):
     else:
         print 'Not signed in'
 
+def get_resized(path, scaleX=.5, scaleY=.5):
+    photo = Image.open(path)
+    width, height = photo.size
+    if SCREEN_W / width < SCREEN_H / height:
+        scale = (scaleX * SCREEN_W) / width
+    else:
+        scale = (scaleY * SCREEN_H) / height
+    photo = photo.resize((int(width * scale), int(height * scale)))
+    return ImageTk.PhotoImage(photo)
 
 def entry_point(master):
+    self = Toplevel(master)
+    self.geometry("%dx%d%+d%+d" % (WIDTH, HEIGHT, 0, -25))
+
+    def close_and_start():
+        print 'Moving to email step'
+        self.destroy()
+        set_email(master)
+
+    frame = Frame(self)
+
+    photo_tk = get_resized(WELCOME_IMAGE_PATH, .75,.75)
+
+    logo_label = Label(frame, image=photo_tk)
+    logo_label.photo_tk = photo_tk
+    logo_label.pack(side=CENTER)
+
+    Button(frame, command=close_and_start, text="Let's get started!", font=custom.BUTTON_FONT).pack(side=CENTER)
+
+def set_email(master):
     global email_addr
     self = Toplevel(master)
     self.geometry("%dx%d%+d%+d" % (WIDTH, HEIGHT, 0, -25))
-    self.config(bg=BG_COLOR)
-    # self.overrideredirect(1)
-    # self.master = master
     email_addr = StringVar()
 
     def set_email_and_start():
         print 'Starting with email %s' % email_addr.get()
         close()
-        check_and_snap(force=True, countdown1=custom.countdown1, email=email_addr)
+        set_bg_and_start(master, email_addr)
 
     def close_and_start():
         global email_addr
         print 'Starting without email'
         email_addr = None
         close()
-        check_and_snap(force=True, countdown1=custom.countdown1)
+        set_bg_and_start(master, email_addr)
 
     def close():
         self.destroy()
@@ -294,31 +321,6 @@ def entry_point(master):
             except:
                 pass
 
-    def get_resized(path):
-        photo = Image.open(path)
-        width, height = photo.size
-        if SCREEN_W / width < SCREEN_H / height:
-            scale = (.5 * SCREEN_W) / width
-        else:
-            scale = (.5 * SCREEN_H) / height
-        photo = photo.resize((int(width * scale), int(height * scale)))
-        return ImageTk.PhotoImage(photo)
-
-    def set_bg(button):
-        if button == 1:
-            on = b1
-            off = b2
-            path = IMAGE_1_PATH
-        else:
-            on = b2
-            off = b1
-            path = IMAGE_2_PATH
-
-        on.config(bg=FG_COLOR,activebackground=FG_COLOR)
-        off.config(bg=BG_COLOR)
-        custom.set_logo(path)
-
-
     frame = Frame(self)
     frame.config(bg=BG_COLOR)
     tkkb_button = Button(frame, command=launch_tkkb, text="Launch-KB")
@@ -341,6 +343,33 @@ def entry_point(master):
 
     etext.focus_set()
 
+
+def set_bg_and_start(master, email):
+    self = Toplevel(master)
+    self.geometry("%dx%d%+d%+d" % (WIDTH, HEIGHT, 0, -25))
+
+    def set_email_and_start():
+        print 'Starting with email %s' % email_addr.get()
+        close()
+        check_and_snap(force=True, countdown1=custom.countdown1, email=email_addr)
+
+    def close():
+        self.destroy()
+
+    def set_bg(button):
+        if button == 1:
+            on = b1
+            off = b2
+            path = IMAGE_1_PATH
+        else:
+            on = b2
+            off = b1
+            path = IMAGE_2_PATH
+
+        on.config(bg=FG_COLOR,activebackground=FG_COLOR)
+        off.config(bg=BG_COLOR)
+        custom.set_logo(path)
+
     images_frame = Frame(self)
     image1 = get_resized(IMAGE_1_PATH)
     image2 = get_resized(IMAGE_2_PATH)
@@ -352,9 +381,10 @@ def entry_point(master):
     b2.config(image=image2)
     b2.image = image2
     b2.pack(side=RIGHT)
+    send_button = Button(images_frame, text="Start!", command=set_email_and_start, font=custom.BUTTON_FONT)
+    send_button.pack(side=CENTER)
     images_frame.pack()
     set_bg(1)
-
 
 ## This is a simple GUI, so we allow the root singleton to do the legwork
 root = Tk()
