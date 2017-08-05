@@ -382,7 +382,7 @@ def set_bg_and_start(master, email):
     b2.config(image=image2)
     b2.image = image2
     b2.pack(side=RIGHT)
-    Button(images_frame, text="Start!", command=set_email_and_start, font=custom.BUTTON_FONT).pack(SIDE=RIGHT)
+    Button(images_frame, text="Start!", command=set_email_and_start, font=custom.BUTTON_FONT).pack(side=RIGHT)
     images_frame.pack()
     set_bg(1)
 
