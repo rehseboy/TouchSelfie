@@ -328,19 +328,36 @@ def set_email(master):
             except:
                 pass
 
-    frame = Frame(self)
-    frame.config(bg=BG_COLOR)
-    tkkb_button = Button(frame, command=launch_tkkb, text="Launch-KB")
-    # tkkb_button.pack(side=LEFT)
-    send_button = Button(frame, text="Set Email & Start", command=set_email_and_start, font=custom.BUTTON_FONT, bg=BG_COLOR, fg=FG_COLOR)
-    send_button.pack(side=RIGHT)
+    text_frame = Frame(self)
+    welcome = Text(text_frame, font=('URW Chancery L', 24, 'bold'), height=1, relief=FLAT)
+    welcome.tag_configure('tag-center', justify=CENTER)
+    welcome.insert(END, 'Enter Your Email Address:', 'tag-center')
+    welcome.pack(fill=BOTH, expand=True)
+    text_frame.pack(pady=10)
+
+    email_frame = Frame(self)
+    email_frame.config(bg=BG_COLOR)
+    tkkb_button = Button(email_frame, command=launch_tkkb, text="Launch-KB")
 
     ## add a text entry box for email addresses
-    etext = Entry(frame, width=40, textvariable=email_addr, font=custom.BUTTON_FONT)
+    etext = Entry(email_frame, fill=X, textvariable=email_addr, font=custom.BUTTON_FONT)
     etext.pack()
-    frame.pack()
+    email_frame.pack()
+
+    start_frame = Frame(self)
+    send_button = Button(email_frame, text="Set Email & Select Background", command=set_email_and_start, font=custom.BUTTON_FONT)
+    send_button.pack(side=RIGHT)
+    start_frame.pack()
+
+    text_frame_2 = Frame(self)
+    option_text = Text(text_frame_2, font=('URW Chancery L', 24, 'bold'), height=1, relief=FLAT)
+    option_text.tag_configure('tag-center', justify=CENTER)
+    option_text.insert(END, 'Or Continue Without Email:', 'tag-center')
+    option_text.pack(fill=BOTH, expand=True)
+    text_frame_2.pack(pady=10)
+
     next_frame = Frame(self)
-    Button(next_frame, command=close_and_start, text="Start (Don't Set Email)", font=custom.BUTTON_FONT, bg=BG_COLOR,fg=FG_COLOR).pack(side=RIGHT)
+    Button(next_frame, command=close_and_start, text="Select Background", font=custom.BUTTON_FONT).pack()
     next_frame.pack()
     etext.bind('<Button-1>', launch_tkkb)
 
