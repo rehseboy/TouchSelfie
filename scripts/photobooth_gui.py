@@ -252,6 +252,7 @@ def entry_point(master):
         check_and_snap(force=True, countdown1=custom.countdown1, email=email_addr)
 
     def close_and_start():
+        global email_addr
         print 'Starting without email'
         email_addr = None
         close()
