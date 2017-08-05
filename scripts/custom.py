@@ -72,8 +72,15 @@ oauth2_refresh_period = 1800000
 restore_conf()
 
 def set_logo(path):
-    global logopng
+    global logopng, logo
     logopng = path
+    if os.path.exists(logopng):
+        logo = Image.open(logopng)
+        lxsize, lysize = logo.size
+    else:
+        logo = None
+        lxsize = 0
+        lysize = 0
 
 ### set up GUI
 BUTTON_FONT = ('FreeSerif', 24)
