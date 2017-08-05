@@ -257,8 +257,9 @@ def entry_point(master):
         self.destroy()
         set_email(master)
     text_frame = Frame(self)
-    welcome = Text(text_frame, height=50).pack()
+    welcome = Text(text_frame, height=50)
     welcome.insert(1, 'Wecome to Asja & Michael\'s Wedding!')
+    welcome.pack()
     text_frame.pack(pady=10)
 
     frame = Frame(self)
