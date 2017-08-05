@@ -275,13 +275,13 @@ def set_email(master):
     email_addr = StringVar()
 
     def set_email_and_start():
-        print 'Starting with email %s' % email_addr.get()
+        print 'Continuing to BG with email %s' % email_addr.get()
         close()
         set_bg_and_start(master, email_addr)
 
     def close_and_start():
         global email_addr
-        print 'Starting without email'
+        print 'Continuing to BG without email'
         email_addr = None
         close()
         set_bg_and_start(master, email_addr)
@@ -382,8 +382,7 @@ def set_bg_and_start(master, email):
     b2.config(image=image2)
     b2.image = image2
     b2.pack(side=RIGHT)
-    send_button = Button(images_frame, text="Start!", command=set_email_and_start, font=custom.BUTTON_FONT)
-    send_button.pack()
+    Button(images_frame, text="Start!", command=set_email_and_start, font=custom.BUTTON_FONT).pack()
     images_frame.pack()
     set_bg(1)
 
