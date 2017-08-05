@@ -90,7 +90,7 @@ class BackSpace(Key):
             self.entry.delete(p - 1)
         
 class Tkkb:
-    def __init__(self, r, entry, onEnter=None):
+    def __init__(self, r, entry, onEnter=None, fill='#000'):
         c = Canvas(r, width=width, height=height)
         c.pack()
         c.onEnter = onEnter

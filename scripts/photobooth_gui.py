@@ -309,7 +309,7 @@ def set_email(master):
                 kill_tkkb()
                 set_email_and_start()
 
-            Tkkb(tkkb, etext, onEnter=onEnter)
+            Tkkb(tkkb, etext, onEnter=onEnter, fill=FG_COLOR)
             etext.config(state=NORMAL)
             tkkb.wm_attributes("-topmost", 1)
             tkkb.transient(self)
@@ -395,6 +395,13 @@ def set_bg_and_start(master, email_addr):
         off.config(bg=BG_COLOR)
         custom.set_logo(path)
 
+    text_frame = Frame(self)
+    welcome = Text(text_frame, font=('URW Chancery L', 24, 'bold'), height=1, relief=FLAT)
+    welcome.tag_configure('tag-center', justify=CENTER)
+    welcome.insert(END, 'Select Your Background', 'tag-center')
+    welcome.pack(fill=BOTH, expand=True)
+    text_frame.pack(pady=10)
+
     images_frame = Frame(self)
     image1 = get_resized(IMAGE_1_PATH)
     image2 = get_resized(IMAGE_2_PATH)
@@ -409,13 +416,12 @@ def set_bg_and_start(master, email_addr):
     images_frame.pack()
     frame = Frame(self)
     Button(frame, text="Start!", command=set_email_and_start, font=custom.BUTTON_FONT).pack()
-    frame.pack();
+    frame.pack(pady=10)
     set_bg(1)
 
 ## This is a simple GUI, so we allow the root singleton to do the legwork
 root = Tk()
 root.attributes("-fullscreen", True)
-root.config(bg=BG_COLOR)
 root.bind('<F12>', screenshot)
 root.tk_setPalette(background=BG_COLOR, foreground=FG_COLOR, activeBackground=BG_COLOR)
 ## set display geometry
@@ -484,7 +490,7 @@ snap_button = Button(interface_frame, text="snap", command=force_snap, font=cust
 interface_frame.pack(side=RIGHT)
 
 ## the canvas will display the images
-can = Canvas(root, width=WIDTH, height=HEIGHT, bg=BG_COLOR)
+can = Canvas(root, width=WIDTH, height=HEIGHT)
 can.pack()
 
 # can.bind('<Button-1>', snap_callback)
