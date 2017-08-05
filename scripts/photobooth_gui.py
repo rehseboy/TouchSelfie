@@ -240,7 +240,7 @@ def sendPic(email):
 def entry_point(master):
     global email_addr
     self = Toplevel(master)
-    self.geometry("%dx%d%+d%+d" % (WIDTH, HEIGHT, 0, 0))
+    self.geometry("%dx%d%+d%+d" % (WIDTH, HEIGHT, 0, -25))
     self.config(bg=BG_COLOR)
     # self.overrideredirect(1)
     # self.master = master
