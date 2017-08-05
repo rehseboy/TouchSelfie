@@ -313,8 +313,8 @@ def entry_point(master):
             off = b1
             path = IMAGE_2_PATH
 
-        on.config(bg=FG_COLOR)
-        off.config(bg=BG_COLOR)
+        on.config(bg=FG_COLOR,activeforeground=FG_COLOR)
+        off.config(bg=BG_COLOR,activeforeground=FG_COLOR)
         custom.set_logo(path)
 
 
