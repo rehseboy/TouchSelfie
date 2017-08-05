@@ -345,7 +345,7 @@ def set_email(master):
     etext.focus_set()
 
 
-def set_bg_and_start(master, email):
+def set_bg_and_start(master, email_addr):
     self = Toplevel(master)
     self.geometry("%dx%d%+d%+d" % (WIDTH, HEIGHT, 0, -25))
 
