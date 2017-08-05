@@ -303,7 +303,7 @@ def set_email(master):
         global tkkb
         if tkkb is None:
             tkkb = Toplevel(self)
-            tkkb.geometry("%dx%d%+d%+d" % (WIDTH, HEIGHT * .55, 0, 125))
+            tkkb.geometry("%dx%d%+d%+d" % (WIDTH, HEIGHT * .55, 0, HEIGHT - (HEIGHT * .55)))
 
             def onEnter(*args):
                 kill_tkkb()
@@ -347,7 +347,7 @@ def set_email(master):
 
     start_frame = Frame(self)
     send_button = Button(email_frame, text="Set Email & Select Background", command=set_email_and_start, font=custom.BUTTON_FONT)
-    send_button.pack(side=RIGHT)
+    send_button.pack()
     start_frame.pack()
 
     text_frame_2 = Frame(self)
