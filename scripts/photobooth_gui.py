@@ -257,7 +257,7 @@ def entry_point(master):
         self.destroy()
         set_email(master)
     text_frame = Frame(self)
-    welcome = Text(text_frame, font=('Verdana', 24, 'bold'), height=1, relief=FLAT)
+    welcome = Text(text_frame, font=('URW Chancery L', 24, 'bold'), height=1, relief=FLAT)
     welcome.tag_configure('tag-center', justify=CENTER)
     welcome.insert(END, 'Wecome to Asja & Michael\'s Wedding!', 'tag-center')
     welcome.pack(fill=BOTH, expand=True)
