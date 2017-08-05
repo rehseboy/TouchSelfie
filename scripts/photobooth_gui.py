@@ -422,7 +422,7 @@ def set_bg_and_start(master, email_addr):
 
 def prompt(master):
     self = Toplevel(master)
-    self.geometry("%dx%d%+d%+d" % (WIDTH/2, HEIGHT/2, 50, 50))
+    self.geometry("%dx%d%+d%+d" % (WIDTH/2, 100, 200, 150))
 
     def again():
         self.destroy()
@@ -435,7 +435,7 @@ def prompt(master):
     frame = Frame(self)
     Button(frame, text="Again!", command=again, font=custom.BUTTON_FONT).pack(side=LEFT)
     Button(frame, text="All Done!", command=done, font=custom.BUTTON_FONT).pack(side=RIGHT)
-    frame.pack()
+    frame.pack(pady=50)
 
 ## This is a simple GUI, so we allow the root singleton to do the legwork
 root = Tk()
