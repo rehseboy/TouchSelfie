@@ -24,6 +24,9 @@ IMAGE_2_PATH = '/home/pi/Downloads/1-2-stars-picture.png'
 
 IMAGE_1_PATH = '/home/pi/Downloads/BG-AM.png'
 
+BG_COLOR = '#000080'
+FG_COLOR = '#D4AF37'
+
 
 def screenshot(*args):
     import screenshot
@@ -176,6 +179,7 @@ def on_close(*args, **kw):
     b_var.set(0)
     root.quit()
 
+
 def force_snap(countdown1=None):
     if countdown1 is None:
         countdown1 = custom.countdown1
@@ -232,10 +236,12 @@ def sendPic(email):
     else:
         print 'Not signed in'
 
+
 def entry_point(master):
     global email_addr
     self = Toplevel(master)
     self.geometry("%dx%d%+d%+d" % (WIDTH, 400, 0, 40))
+
     # self.overrideredirect(1)
     # self.master = master
     email_addr = StringVar()
@@ -307,8 +313,8 @@ def entry_point(master):
             off = b1
             path = IMAGE_2_PATH
 
-        on.config(bg='blue')
-        off.config(bg=None)
+        on.config(bg=BG_COLOR)
+        off.config(bg=FG_COLOR)
         custom.set_logo(path)
 
 
@@ -345,6 +351,7 @@ def entry_point(master):
     b2.image = image2
     b2.pack(side=RIGHT)
     images_frame.pack()
+    set_bg(1)
 
 
 ## This is a simple GUI, so we allow the root singleton to do the legwork
