@@ -383,7 +383,7 @@ def set_bg_and_start(master, email):
     b2.image = image2
     b2.pack(side=RIGHT)
     send_button = Button(images_frame, text="Start!", command=set_email_and_start, font=custom.BUTTON_FONT)
-    send_button.pack(side=BOTTOM)
+    send_button.pack()
     images_frame.pack()
     set_bg(1)
 
