@@ -240,7 +240,7 @@ def sendPic(email):
 def entry_point(master):
     global email_addr
     self = Toplevel(master)
-    self.geometry("%dx%d%+d%+d" % (WIDTH, 400, 0, 40))
+    self.geometry("%dx%d%+d%+d" % (WIDTH, HEIGHT, 0, 0))
     self.config(bg=BG_COLOR)
     # self.overrideredirect(1)
     # self.master = master
@@ -321,15 +321,15 @@ def entry_point(master):
     frame = Frame(self)
     tkkb_button = Button(frame, command=launch_tkkb, text="Launch-KB")
     # tkkb_button.pack(side=LEFT)
-    send_button = Button(frame, text="Set Email & Start", command=set_email_and_start, font=custom.BUTTON_FONT, bg=BG_COLOR)
+    send_button = Button(frame, text="Set Email & Start", command=set_email_and_start, font=custom.BUTTON_FONT, bg=BG_COLOR, fg=FG_COLOR)
     send_button.pack(side=RIGHT)
 
     ## add a text entry box for email addresses
-    etext = Entry(frame, width=40, textvariable=email_addr, font=custom.BUTTON_FONT)
+    etext = Entry(frame, width=40, textvariable=email_addr, font=custom.BUTTON_FONT, bg=BG_COLOR)
     etext.pack()
     frame.pack()
     next_frame = Frame(self)
-    Button(next_frame, command=close_and_start, text="Start (Don't Set Email)", font=custom.BUTTON_FONT, bg=BG_COLOR).pack(side=RIGHT)
+    Button(next_frame, command=close_and_start, text="Start (Don't Set Email)", font=custom.BUTTON_FONT, bg=BG_COLOR,fg=FG_COLOR).pack(side=RIGHT)
     next_frame.pack()
     etext.bind('<Button-1>', launch_tkkb)
 
