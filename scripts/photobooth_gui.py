@@ -24,7 +24,7 @@ IMAGE_2_PATH = '/home/pi/Downloads/1-2-stars-picture.png'
 
 IMAGE_1_PATH = '/home/pi/Downloads/BG-AM.png'
 
-BG_COLOR = '#1D2951'
+BG_COLOR = '#00002C'
 FG_COLOR = '#D4AF37'
 
 
