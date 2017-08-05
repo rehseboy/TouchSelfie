@@ -258,7 +258,7 @@ def entry_point(master):
         set_email(master)
     text_frame = Frame(self)
     welcome = Text(text_frame, height=50)
-    welcome.insert(1, 'Wecome to Asja & Michael\'s Wedding!')
+    welcome.insert(INSERT, 'Wecome to Asja & Michael\'s Wedding!')
     welcome.pack()
     text_frame.pack(pady=10)
 
