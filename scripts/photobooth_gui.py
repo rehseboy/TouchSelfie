@@ -241,7 +241,7 @@ def entry_point(master):
     global email_addr
     self = Toplevel(master)
     self.geometry("%dx%d%+d%+d" % (WIDTH, 400, 0, 40))
-
+    self.config(bg=BG_COLOR)
     # self.overrideredirect(1)
     # self.master = master
     email_addr = StringVar()
@@ -321,7 +321,7 @@ def entry_point(master):
     frame = Frame(self)
     tkkb_button = Button(frame, command=launch_tkkb, text="Launch-KB")
     # tkkb_button.pack(side=LEFT)
-    send_button = Button(frame, text="Set Email & Start", command=set_email_and_start, font=custom.BUTTON_FONT)
+    send_button = Button(frame, text="Set Email & Start", command=set_email_and_start, font=custom.BUTTON_FONT, bg=BG_COLOR)
     send_button.pack(side=RIGHT)
 
     ## add a text entry box for email addresses
@@ -329,7 +329,7 @@ def entry_point(master):
     etext.pack()
     frame.pack()
     next_frame = Frame(self)
-    Button(next_frame, command=close_and_start, text="Start (Don't Set Email)", font=custom.BUTTON_FONT).pack(side=RIGHT)
+    Button(next_frame, command=close_and_start, text="Start (Don't Set Email)", font=custom.BUTTON_FONT, bg=BG_COLOR).pack(side=RIGHT)
     next_frame.pack()
     etext.bind('<Button-1>', launch_tkkb)
 
@@ -357,7 +357,7 @@ def entry_point(master):
 ## This is a simple GUI, so we allow the root singleton to do the legwork
 root = Tk()
 root.attributes("-fullscreen", True)
-
+root.config(bg=BG_COLOR)
 root.bind('<F12>', screenshot)
 
 ## set display geometry
@@ -411,8 +411,8 @@ root.geometry("%dx%d+0+0" % (WIDTH, HEIGHT))
 root.focus_set()  # <-- move focus to this widget
 
 frame = Frame(root)
-Button(frame, text="Again!", command=force_snap, font=custom.BUTTON_FONT).pack(side=LEFT)
-Button(frame, text="All Done!", command=lambda *args: entry_point(root), font=custom.BUTTON_FONT).pack(side=RIGHT)
+Button(frame, text="Again!", command=force_snap, font=custom.BUTTON_FONT,bg=BG_COLOR).pack(side=LEFT)
+Button(frame, text="All Done!", command=lambda *args: entry_point(root), font=custom.BUTTON_FONT, bg=BG_COLOR).pack(side=RIGHT)
 frame.pack()
 # Button(frame, text="Exit", command=on_close).pack(side=LEFT)
 # Button(frame, text="Customize", command=lambda *args: custom.customize(root)).pack(side=LEFT)
