@@ -250,12 +250,16 @@ def get_resized(path, scaleX=.5, scaleY=.5):
 
 def entry_point(master):
     self = Toplevel(master)
-    self.geometry("%dx%d%+d%+d" % (WIDTH, HEIGHT, 0, -25))
+    self.geometry("%dx%d%+d%+d" % (WIDTH, HEIGHT, 0, 30))
 
     def close_and_start():
         print 'Moving to email step'
         self.destroy()
         set_email(master)
+    text_frame = Frame(self)
+    welcome = Text(text_frame, height=50).pack()
+    welcome.insert(1, 'Wecome to Asja & Michael\'s Wedding!')
+    text_frame.pack(pady=10)
 
     frame = Frame(self)
 
@@ -271,7 +275,7 @@ def entry_point(master):
 def set_email(master):
     global email_addr
     self = Toplevel(master)
-    self.geometry("%dx%d%+d%+d" % (WIDTH, HEIGHT, 0, -25))
+    self.geometry("%dx%d%+d%+d" % (WIDTH, HEIGHT, 0, 30))
     email_addr = StringVar()
 
     def set_email_and_start():
@@ -347,7 +351,7 @@ def set_email(master):
 
 def set_bg_and_start(master, email_addr):
     self = Toplevel(master)
-    self.geometry("%dx%d%+d%+d" % (WIDTH, HEIGHT, 0, -25))
+    self.geometry("%dx%d%+d%+d" % (WIDTH, HEIGHT, 0, -30))
 
     def set_email_and_start():
         print 'Starting Countdown'
