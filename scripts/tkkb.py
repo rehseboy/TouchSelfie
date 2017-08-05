@@ -24,6 +24,7 @@ height=(len(button_labels) + 1) * (key_dim + pad)
 fontsize = 18
 offx = fontsize
 offy = fontsize
+text_fill = '#000'
 
 class Key:
     keymaps = {}
@@ -31,10 +32,10 @@ class Key:
                  offx=offx, offy=offy, fontsize=fontsize):
         can.create_text(bbox[0] + offx, bbox[1] + offy, text=label, 
                         font=("Helvetica", fontsize),
-                        anchor=anchor, tag='lower')
+                        anchor=anchor, tag='lower', fill=text_fill)
         can.create_text(bbox[0] + offx, bbox[1] + offy, text=shifted, 
                         font=("Helvetica", fontsize),
-                        anchor=anchor, tag='upper')
+                        anchor=anchor, tag='upper', fill=text_fill)
         can.create_rectangle(bbox[0], bbox[1], 
                              bbox[2] + bbox[0], 
                              bbox[3] + bbox[1])
@@ -91,7 +92,9 @@ class BackSpace(Key):
         
 class Tkkb:
     def __init__(self, r, entry, onEnter=None, fill='#000'):
-        c = Canvas(r, width=width, height=height, fill=fill)
+        global text_fill
+        text_fill = fill
+        c = Canvas(r, width=width, height=height)
         c.pack()
         c.onEnter = onEnter
 
