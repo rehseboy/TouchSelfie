@@ -159,6 +159,7 @@ def check_and_snap(force=False, countdown1=None, email=None):
             can.delete("text")
             # can.create_text(WIDTH/2, HEIGHT - STATUS_H_OFFSET, text="Press button when ready", font=custom.CANVAS_FONT, tags="text")
             can.update()
+            prompt(root)
     else:
         ### what command did we get?
         if command.strip():
@@ -419,6 +420,23 @@ def set_bg_and_start(master, email_addr):
     frame.pack(pady=10)
     set_bg(1)
 
+def prompt(master):
+    self = Toplevel(master)
+    self.geometry("%dx%d%+d%+d" % (WIDTH, HEIGHT, 0, -30))
+
+    def again():
+        self.destroy()
+        force_snap()
+
+    def done():
+        self.destroy()
+        entry_point(master)
+
+    frame = Frame(self)
+    Button(frame, text="Again!", command=again, font=custom.BUTTON_FONT).pack(side=LEFT)
+    Button(frame, text="All Done!", command=done, font=custom.BUTTON_FONT).pack(side=RIGHT)
+    frame.pack()
+
 ## This is a simple GUI, so we allow the root singleton to do the legwork
 root = Tk()
 root.attributes("-fullscreen", True)
@@ -473,14 +491,6 @@ w, h = root.winfo_screenwidth(), root.winfo_screenheight()
 # root.overrideredirect(1)
 root.geometry("%dx%d+0+0" % (WIDTH, HEIGHT))
 root.focus_set()  # <-- move focus to this widget
-
-frame = Frame(root)
-Button(frame, text="Again!", command=force_snap, font=custom.BUTTON_FONT).pack(side=LEFT)
-Button(frame, text="All Done!", command=lambda *args: entry_point(root), font=custom.BUTTON_FONT).pack(side=RIGHT)
-frame.pack()
-# Button(frame, text="Exit", command=on_close).pack(side=LEFT)
-# Button(frame, text="Customize", command=lambda *args: custom.customize(root)).pack(side=LEFT)
-
 
 ## add a software button in case hardware button is not available
 interface_frame = Frame(root)
