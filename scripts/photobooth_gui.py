@@ -350,7 +350,7 @@ def set_bg_and_start(master, email_addr):
     self.geometry("%dx%d%+d%+d" % (WIDTH, HEIGHT, 0, -25))
 
     def set_email_and_start():
-        print 'Starting with email %s' % email_addr.get()
+        print 'Starting Countdown'
         close()
         check_and_snap(force=True, countdown1=custom.countdown1, email=email_addr)
 
