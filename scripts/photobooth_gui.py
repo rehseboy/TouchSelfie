@@ -427,6 +427,9 @@ def set_bg_and_start(master, email_addr):
 def prompt(master):
     self = Toplevel(master)
     self.geometry("%dx%d%+d%+d" % (WIDTH/2, 125, 200, 150))
+    #self.resizable(0,0)
+    #self.update_idletasks()
+    self.overrideredirect(True)
 
     def again():
         self.destroy()
