@@ -109,6 +109,7 @@ def snap(can, countdown1, effect='None'):
             call(command)
         camera = mycamera.PiCamera()
         camera.vflip = True
+        camera.hflip = True
         countdown(camera, can, countdown1)
         if effect == 'None':
             camera.capture(custom.RAW_FILENAME, resize=(1366, 768))

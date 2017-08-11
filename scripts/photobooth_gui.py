@@ -26,6 +26,8 @@ IMAGE_1_PATH = '/home/pi/Downloads/BG-AM1.png'
 
 WELCOME_IMAGE_PATH = '/home/pi/Downloads/AsjaMichael.jpg'
 
+TITLE_FONT = ('URW Chancery L', 30, 'bold')
+
 BG_COLOR = '#00002C'
 FG_COLOR = '#D4AF37'
 
@@ -262,7 +264,7 @@ def entry_point(master):
         self.destroy()
         set_email(master)
     text_frame = Frame(self)
-    welcome = Text(text_frame, font=('URW Chancery L', 24, 'bold'), height=1, relief=FLAT)
+    welcome = Text(text_frame, font=TITLE_FONT, height=1, relief=FLAT)
     welcome.tag_configure('tag-center', justify=CENTER)
     welcome.insert(END, 'Welcome to Asja & Michael\'s Wedding!', 'tag-center')
     welcome.pack(fill=BOTH, expand=True)
@@ -336,7 +338,7 @@ def set_email(master):
                 pass
 
     text_frame = Frame(self)
-    welcome = Text(text_frame, font=('URW Chancery L', 24, 'bold'), height=1, relief=FLAT)
+    welcome = Text(text_frame, font=TITLE_FONT, height=1, relief=FLAT)
     welcome.tag_configure('tag-center', justify=CENTER)
     welcome.insert(END, 'Enter Your Email Address:', 'tag-center')
     welcome.pack(fill=BOTH, expand=True)
@@ -357,7 +359,7 @@ def set_email(master):
     start_frame.pack()
 
     text_frame_2 = Frame(self)
-    option_text = Text(text_frame_2, font=('URW Chancery L', 24, 'bold'), height=1, relief=FLAT)
+    option_text = Text(text_frame_2, font=TITLE_FONT, height=1, relief=FLAT)
     option_text.tag_configure('tag-center', justify=CENTER)
     option_text.insert(END, 'Or Continue Without Email:', 'tag-center')
     option_text.pack(fill=BOTH, expand=True)
@@ -402,7 +404,7 @@ def set_bg_and_start(master, email_addr):
         custom.set_logo(path)
 
     text_frame = Frame(self)
-    welcome = Text(text_frame, font=('URW Chancery L', 24, 'bold'), height=1, relief=FLAT)
+    welcome = Text(text_frame, font=TITLE_FONT, height=1, relief=FLAT)
     welcome.tag_configure('tag-center', justify=CENTER)
     welcome.insert(END, 'Select Your Background', 'tag-center')
     welcome.pack(fill=BOTH, expand=True)
