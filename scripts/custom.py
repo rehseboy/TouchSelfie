@@ -83,8 +83,8 @@ def set_logo(path):
         lysize = 0
 
 ### set up GUI
-BUTTON_FONT = ('FreeSerif', 24)
-CANVAS_FONT = ("times", 50)
+BUTTON_FONT = ('Gentium Basic', 24)
+CANVAS_FONT = ('Gentium Basic', 50)
 
 ## usually not need to change these.
 EXT = 'jpg'     
