@@ -47,8 +47,10 @@ def display_image(im=None):
     global image_tk
 
     x, y = im.size
-    x = int(x / SCALE)
-    y = int(y / SCALE)
+    x_scale = x/WIDTH
+    y_scale = y/HEIGHT
+    x = int(x * x_scale)
+    y = int(y / y_scale)
 
     im = im.resize((x, y));
     image_tk = ImageTk.PhotoImage(im)
@@ -446,9 +448,6 @@ root.tk_setPalette(background=BG_COLOR, foreground=FG_COLOR, activeBackground=BG
 WIDTH = 800
 HEIGHT = 480
 albumID_informed = False  ### only show albumID customize info once
-
-## set photo size to fit nicely in screen
-SCALE = 1
 
 ## the countdown starting value
 # COUNTDOWN1 = custom.countdown1 ### use custom.countdown1 reference directly
