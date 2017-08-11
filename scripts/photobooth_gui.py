@@ -20,9 +20,9 @@ from constants import *
 ### booth cam may need to present a file dialog gui.  So import after root is defined.
 from boothcam import *
 
-IMAGE_2_PATH = '/home/pi/Downloads/1-2-stars-picture.png'
+IMAGE_2_PATH = '/home/pi/Downloads/BG-AM2.png'
 
-IMAGE_1_PATH = '/home/pi/Downloads/BG-AM.png'
+IMAGE_1_PATH = '/home/pi/Downloads/BG-AM1.png'
 
 WELCOME_IMAGE_PATH = '/home/pi/Downloads/AsjaMichael.jpg'
 
