@@ -46,13 +46,15 @@ def display_image(im=None):
     '''
     global image_tk
 
-    x, y = im.size
-    x_scale = x/WIDTH
-    y_scale = y/HEIGHT
-    x = int(x * x_scale)
-    y = int(y / y_scale)
+    # x, y = im.size
+    # x_scale = x/WIDTH
+    # y_scale = y/HEIGHT
+    # x = int(x * x_scale)
+    # y = int(y / y_scale)
 
-    im = im.resize((x, y));
+    x, y = WIDTH, HEIGHT
+
+    im = im.resize((x, y))
     image_tk = ImageTk.PhotoImage(im)
 
     ## delete all canvas elements with "image" in the tag
