@@ -448,7 +448,7 @@ HEIGHT = 480
 albumID_informed = False  ### only show albumID customize info once
 
 ## set photo size to fit nicely in screen
-SCALE = 1.8
+SCALE = 1
 
 ## the countdown starting value
 # COUNTDOWN1 = custom.countdown1 ### use custom.countdown1 reference directly
