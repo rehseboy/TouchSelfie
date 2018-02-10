@@ -24,7 +24,7 @@ IMAGE_2_PATH = '/home/pi/Downloads/BG-AM2.png'
 
 IMAGE_1_PATH = '/home/pi/Downloads/BG-AM1.png'
 
-WELCOME_IMAGE_PATH = '/home/pi/Downloads/AsjaMichael.jpg'
+WELCOME_IMAGE_PATH = '/home/pi/Downloads/GrumpyCat.jpg'
 
 TITLE_FONT = ('URW Chancery L', 30, 'bold')
 
@@ -266,7 +266,7 @@ def entry_point(master):
     text_frame = Frame(self)
     welcome = Text(text_frame, font=TITLE_FONT, height=1, relief=FLAT)
     welcome.tag_configure('tag-center', justify=CENTER)
-    welcome.insert(END, 'Welcome to Asja & Michael\'s Wedding!', 'tag-center')
+    welcome.insert(END, 'Get a Cupcake photo. Fuck Valentine\'s Day.', 'tag-center')
     welcome.pack(fill=BOTH, expand=True)
     text_frame.pack(pady=10)
 
